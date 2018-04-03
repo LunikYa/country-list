@@ -1,15 +1,11 @@
-let lists         = document.getElementById('list'),
-    selectCountry = document.getElementById('select-country'),
+let selectCountry = document.getElementById('select-country'),
     listCity      = document.getElementById('list-city'),
     inputSort     = document.getElementById('js-input-sort')
 
 function httpGet(url) {
-
     return new Promise(function (resolve, reject) {
-
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
-
         xhr.onload = function () {
             if (this.status == 200) {
                 resolve(this.response);
@@ -31,21 +27,20 @@ class List {
         this.elem    = elem;
         this.options = options;
     }
-    render(/**Array*/) {
+    render() {
         let data = this.options.options || [];
             this.removeListItem()
             data.forEach((x) => {this.addListItem(x)});
     }
     addListItem(item) {
-        // console.log(this.options)
         if(this.options.title == 'Country'){                
             let option = document.createElement('option');
                 option.textContent = item;
                 this.elem.appendChild(option);
         } else{
             let p = document.createElement('p');
-            p.textContent = item;
-            this.elem.appendChild(p);
+                p.textContent = item;
+                this.elem.appendChild(p);
         }       
     }
     removeListItem() {
@@ -85,14 +80,14 @@ inputSort.oninput = function(){
         arr = [];
         arr = ([...hash[selectCountry.value]].filter((a)=>{
                 for (let i = 0; i < val.length; i++) {
-                    if (a[i].toLowerCase() !== val[i].toLowerCase())
+                    if (!a[i] || (a[i].toLowerCase() !== val[i].toLowerCase())) 
                         return false
                 }
             return true
         }))
+    if(!arr.length){
+        arr.push('No matches')
+    }
     listOfCity.options.options = arr;
     listOfCity.render()    
 }
-
-
-

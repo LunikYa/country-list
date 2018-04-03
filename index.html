@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>todolist-native</title>
+    <title>countru list</title>
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
@@ -12,35 +12,12 @@
         <h1 class="logo">Countries</h1>        
     </header>
 
-    <main class="wrapp">
-        <!-- <div class="div-sort" onclick="sortTasks(event)">
-            <span class="item-sorter-active">All</span>
-            <span class="item-sorter">Completed</span>
-            <span class="item-sorter">Active</span>
-        </div> -->
-        <div class="task-conteiner">
-            <!-- <img onclick="completeAll(event)" src="./img/complete-all.png" class="img-complete-all" /> -->
-            <input type="text" id="js-input-sort" class="new-task" placeholder="Find country"/>
-            <div id="list">
+    <main class="wrapp">        
+        <div class="task-conteiner">            
+            <input type="text" id="js-input-sort" class="new-task" placeholder="Find City"/>           
                 <select name="country" id="select-country" class="select-country"></select>
-                 <div class="country-list">
-
+                <div id="list-city" class="list-city">                    
                 </div>
-                <div class="city-list">
-
-                </div> 
-            </div>
-            <div id="list-city">
-
-            </div>
-            <!-- <ul class="list-tasks" id="js-list-tasks">
-
-            </ul>        -->
-                 
-            <!-- <div class="stats" >                
-                <span onclick="removeAll(event)" class="button-clear">Clear completed</span>   
-                <span id='js-stats'>Total 0</span>
-            </div> -->
         </div>
     </main>     
     
