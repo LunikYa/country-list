@@ -25,7 +25,14 @@ h1{
     font-size: 100px;
     color: rgba(47, 107, 175, 0.15);
 }
-
+.link{
+    font-size: 15px;
+    color: rgb(47, 107, 175);
+    cursor: pointer;
+}
+.link:hover{
+    transform: scale(1.3)
+}
 .new-task{
     width: 100%;
     height: 50px;
@@ -142,27 +149,26 @@ h2{
 
 .conteiner-form{
     width: 100%;
-    /* height: 810px; */
-    position: absolute;
+    height: 100%;
     background-color:#f0f5f5;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999999;
+    margin-top: 20px;
+    
   }
+
  .conteiner-form form{
     display: flex;
     flex-direction: column;
     align-items: center;
  }
+
   .default-input{
     width: 280px;
     height: 40px;
     outline: none;
     margin-bottom: 30px;
-    padding-left: 50px;
+    padding-left: 10px;
     border: 1px solid black;
-    background: url(https://png.icons8.com/ultraviolet/1600/login-as-user.png) no-repeat 3px 1px rgba(246, 243, 246, 0.7);
+    /* background: url(https://png.icons8.com/ultraviolet/1600/login-as-user.png) no-repeat 3px 1px rgba(246, 243, 246, 0.7); */
     background-size: auto 90%;
   }
   .box-input{
@@ -171,15 +177,19 @@ h2{
 
 .error-box{
     display: none;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    z-index: 9999999;
     color:#555;
     border-radius:10px;
-    font-family:Tahoma,Geneva,Arial,sans-serif;
+    font-family: Tahoma,Geneva,Arial,sans-serif;
     font-size:15px;
-    padding:10px 10px 10px 10px;
-    /* margin:10px; */
+    padding: 10px 10px 10px 10px;
     background:#ffecec ;
     border:1px solid #f5aca6;
 }
+
   .button{
     width: 150px;
     height: 40px;
