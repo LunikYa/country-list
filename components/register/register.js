@@ -57,23 +57,23 @@ function validateInput(ev){
             if (name === 'email') {
                 let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 if (!regExpEmail.test(value)) {
-                    throw({name: 'email is not valid', elem: input})
+                    throw({name: '*Email is not valid', elem: input})
                 } 
             }
             if (input.type === 'text') {
                 if (value.length < 1) {
-                    throw({ name: 'this field is require ', elem: input})
+                    throw ({ name: '*This field is require ', elem: input})
                 } 
             }
             if (input.type === 'password') {
                 if(value.length < 6){
-                    throw({ name: 'password must be 6 or more characters', elem: input})
+                    throw ({ name: '*Password must be 6 or more characters', elem: input})
                 } 
                 if (registerForm.dblpassword.value !== input.value) {
                     debugger
                     registerForm.dblpassword.style.border = '2px solid red';
                     
-                    throw({ name: 'Passwords do not match', elem: registerForm.dblpassword })
+                    throw ({ name: '*Passwords do not match', elem: registerForm.dblpassword })
                 }
             }
             input.style.border = '2px solid green';
@@ -97,7 +97,7 @@ function validateForm(form) {
     }
     if (form.password.value !== form.dblpassword.value){
         form.dblpassword.style.border = '2px solid red';
-        return { name: 'Passwords do not match', elem: form.dblpassword}        
+        return { name: '*Passwords do not match', elem: form.dblpassword}        
     }
     return result
 }
