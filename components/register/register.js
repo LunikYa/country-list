@@ -137,3 +137,25 @@ function hideErrorAll(user, elem) {
         elem[key].style.border = '1px solid black';
     }
 }
+function validateUser(event) {
+    let usersHash = [];
+    usersHash.push(JSON.parse(localStorage.user));
+
+    for (let i = 0; i < usersHash.length; i++) {
+        if (usersHash[i].email === event.target.email.value) {
+            event.target.email.style.border = '2px solid green';
+            if (usersHash[i].password === event.target.password.value) {
+                window.location.href = "file:///home/devico/Projects/countries/components/country/index.html"
+                event.preventDefault()
+                return true
+            } else {
+                event.target.password.style.border = '2px solid red';
+                event.preventDefault()
+                return false
+            }
+        }
+    }
+    event.target.email.style.border = '2px solid red'
+    event.preventDefault()
+    return false
+}

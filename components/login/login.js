@@ -1,6 +1,6 @@
-let elemLink  = document.getElementById('link-to-register'),
-    form      = document.getElementById('form-login'),
-    usersTest = {};
+// let elemLink  = document.getElementById('link-to-register'),
+//     form      = document.getElementById('form-login'),
+//     usersTest = {};
 // elemLink.onclick = function name(params) {
 //     window.location.href = "file:///home/devico/Projects/countries/components/register/index.html"
 // }
@@ -8,20 +8,18 @@ let elemLink  = document.getElementById('link-to-register'),
 // form.addEventListener('submit', validateUser);
 let urlLog     = 'file:///home/devico/Projects/countries/components/login/index.html',
     urlCountry = 'file:///home/devico/Projects/countries/components/country/index.html';
+
 class Form {
     constructor(data){
         this.data = data;
     }
-
     render(arrOptions){
         let options = arrOptions || this.data.inputsOptions || [],
-            form    = document.createElement('form');   
-
-        let arrInp = options.map(x => {return this.createInput(x)})
+            form    = document.createElement('form'),
+            arrInp  = options.map(x => {return this.createInput(x)});
        
         for (let i = 0; i < arrInp.length; i++){
             let div = new ErrorBox({ eventName: arrInp[i].type + i})
-
             arrInp[i].setAttribute('data-index', i)
             form.name = this.data.nameForm || 'default';
             form.appendChild(arrInp[i])
@@ -53,11 +51,9 @@ class Input {
     constructor(data) {
         this.data = data;
     }
-
     render(obj) {
         let input   = document.createElement('input'),
-            options = obj || this.data.options || {};   
-        
+            options = obj || this.data.options || {};           
             input.className = options.class;
 
         for (let key in options) {
@@ -68,13 +64,11 @@ class Input {
     }
 
     addValidate(input){
-        // let nameFunctionValidate; 
         input.addEventListener('focus', function(event) {
             event.target.style.border = '1px solid black';
             let hide = new CustomEvent('HideErrorBox', { 'detail': { elem: input.nextElementSibling }, bubbles: true })
                 input.dispatchEvent(hide)   
         })
-
         if (input.type === 'email'){
             input.addEventListener('blur', isValidemail);
 
@@ -108,63 +102,7 @@ class ErrorBox {
     }            
 }
 
-function showError(error, input){
-    let event = new CustomEvent(input.type + input.getAttribute('data-index'), { 'detail': error, bubbles: true })
-    input.dispatchEvent(event)
-    input.style.border = '1px solid red'
-}
 
-function isValidemail(event) {
-    let input = event.target || event;
-    let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    try {
-        if (!regExpEmail.test(input.value)) {
-            throw ({ name: 'isValidEmail', message: '*Email is not valid', elem: input })
-        } 
-        input.style.border = '1px solid green'
-        return true
-    } catch (error) {
-        showError(error, input)
-        return false
-    }    
-}
-
-function isValidpassword(event){
-    let input = event.target || event;
-    try{
-        if (/\W/.test(input.value)) {            
-            throw ({ name: 'isValidPassword', message: '*Password can`t include special character', elem: input })
-        }
-        else if (input.value.length < 6) {            
-            throw ({ name: 'isValidPassword', message:'*Password must be 6 or more characters', elem: input })
-        } 
-        input.style.border = '1px solid green';
-        return true
-    } catch(error) {
-        showError(error, input)
-        return false
-    }    
-}
-
-function isValidtext(event) {
-    let input = event.target || event;
-    try{
-        if (/\W|\d/.test(input.value[0])) {            
-            throw ({ name: 'isValidText', message: '*First char must be letter', elem: input })
-        }
-        else if (input.value.length < 3) {
-            throw ({ name: 'isValidText', message: '*This field must be 3 or more characters', elem: input })
-        }
-        input.style.border = '1px solid green';
-        return true
-    } catch(error){
-        showError(error, input)
-        return false
-    }    
-}
-
-
-{
 let boxFormLogin     = document.getElementById('conteiner-form-login'),
     formLoginOptions = 
     {
@@ -189,8 +127,7 @@ let formLogin  = new Form(formLoginOptions),
     buttonLog.textContent  = 'Submit'
     buttonLog.addEventListener('click', validateFormAndJump.bind(this, 'login', urlCountry));
     boxFormLogin.appendChild(buttonLog);
-    boxFormLogin.prepend(captionLog)
-}
+    boxFormLogin.prepend(captionLog);
 
 let boxFormRegister = document.getElementById('conteiner-form-register'),
     formRegisterOptions =
@@ -222,10 +159,6 @@ buttonReg.addEventListener('click', validateFormAndJump.bind(this, 'register', u
 boxFormRegister.appendChild(buttonReg);
 boxFormRegister.prepend(captionReg)
 
-function submit(nameForm){
-
-}
-
 function validateFormAndJump(nameForm, href){
     let x      = document.forms[nameForm],
         result = true;
@@ -254,27 +187,60 @@ function validateFormAndJump(nameForm, href){
     result ? `${window.location.href = href}` : false
 }
 
-
-function validateUser(event) {
-    let usersHash = [];
-        usersHash.push(JSON.parse(localStorage.user));
-
-    for(let i = 0; i < usersHash.length; i++){
-        if(usersHash[i].email === event.target.email.value){
-            event.target.email.style.border = '2px solid green';
-            if (usersHash[i].password === event.target.password.value){
-                window.location.href = "file:///home/devico/Projects/countries/components/country/index.html"
-                event.preventDefault()
-                return true
-            } else{
-                event.target.password.style.border = '2px solid red';
-                event.preventDefault()
-                return false
-            }
-        }        
-    }
-    event.target.email.style.border = '2px solid red'
-    event.preventDefault()
-    return false
+function showError(error, input) {
+    let event = new CustomEvent(input.type + input.getAttribute('data-index'), { 'detail': error, bubbles: true })
+    input.dispatchEvent(event)
+    input.style.border = '1px solid red'
 }
+
+function isValidemail(event) {
+    let input = event.target || event;
+    let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    try {
+        if (!regExpEmail.test(input.value)) {
+            throw ({ name: 'isValidEmail', message: '*Email is not valid', elem: input })
+        }
+        input.style.border = '1px solid green'
+        return true
+    } catch (error) {
+        showError(error, input)
+        return false
+    }
+}
+
+function isValidpassword(event) {
+    let input = event.target || event;
+    try {
+        if (/\W/.test(input.value)) {
+            throw ({ name: 'isValidPassword', message: '*Password can`t include special character', elem: input })
+        }
+        else if (input.value.length < 6) {
+            throw ({ name: 'isValidPassword', message: '*Password must be 6 or more characters', elem: input })
+        }
+        input.style.border = '1px solid green';
+        return true
+    } catch (error) {
+        showError(error, input)
+        return false
+    }
+}
+
+function isValidtext(event) {
+    let input = event.target || event;
+    try {
+        if (/\W|\d/.test(input.value[0])) {
+            throw ({ name: 'isValidText', message: '*First char must be letter', elem: input })
+        }
+        else if (input.value.length < 3) {
+            throw ({ name: 'isValidText', message: '*This field must be 3 or more characters', elem: input })
+        }
+        input.style.border = '1px solid green';
+        return true
+    } catch (error) {
+        showError(error, input)
+        return false
+    }
+}
+
+
 
