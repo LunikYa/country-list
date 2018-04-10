@@ -3,11 +3,11 @@
     margin: 0;
     outline: none;
     font-family: Arial, Helvetica, sans-serif;
-    transition: all 0.5s;
+    /* transition: all 0.5s; */
 }
 
 body{
-    background-color: rgba(228, 236, 238, 0.7);
+    background-color: rgb(228, 236, 238);
 }
 
 h1{
@@ -18,18 +18,21 @@ h1{
     margin: 0 auto;
     max-width: 800px;
     text-align: center;
-    /* background-color: white; */
 }
 
 .logo{
     font-size: 100px;
     color: rgba(47, 107, 175, 0.15);
 }
+
 .link{
-    font-size: 15px;
+    font-size: 12px;
     color: rgb(47, 107, 175);
     cursor: pointer;
+    margin-top: 10px;
+    transition: all 1s;
 }
+
 .link:hover{
     transform: scale(1.3)
 }
@@ -39,11 +42,12 @@ h1{
     padding-left: 10px;
     border: none;
     font-size: 20px;
-    /* background: url('../img/icons8-search-50.png') top / cover no-repeat 40px; */
-    border-bottom: 2px solid rgba(228, 236, 238, 0.7);
+    background-color:rgb(228, 236, 238);
+    border-bottom: 2px solid rgba(47, 107, 175, 0.8);
 }
 
 .task-conteiner{
+    /* display: none; */
     text-align: left;
     font-size: 20px;
     box-shadow: 0 5px 5px rgba(0,0,0,0.7);
@@ -76,29 +80,25 @@ h1{
     border: 1px solid rgb(175, 47, 47);
     margin-left: 10px;
 }
+
 .list-country{
     width: 100%;
     display: inline-block;
     margin-left: 20px;
 }
+
 .conteiner-list{
     width: 45%;
 }
+
 .left{
     float: left;
 }
+
 .right{
     float: right;
 }
-.select-country{
-    width: 50%;
-    height: 50px;
-    font-size: 20px;
-    padding-left: 10px;
-    color: black;
-    border: none;
-    border-bottom: 1px solid rgba(47, 107, 175, 0.15);
-}
+
 .list-general {
     list-style: none;
     margin: 0;
@@ -138,7 +138,6 @@ h1{
     top: 30%;
     left: -12px;
 }
-
 .list-general a:hover {
     background: rgba(47, 107, 175, 0.15);
 }
@@ -151,16 +150,15 @@ h2{
 .conteiner-form{
     width: 100%;
     height: 100%;
-    background-color:#f0f5f5;
-    margin-top: 20px;
-    
-  }
+    background-color:rgba(228, 236, 238, 0.7);
+    margin-top: 20px;    
+}
 
- .conteiner-form form{
+.conteiner-form form{
     display: flex;
     flex-direction: column;
     align-items: center;
- }
+}
 
   .default-input{
     width: 280px;
@@ -169,11 +167,7 @@ h2{
     margin-bottom: 25px;
     padding-left: 10px;
     border: 1px solid black;
-    /* background: url(https://png.icons8.com/ultraviolet/1600/login-as-user.png) no-repeat 3px 1px rgba(246, 243, 246, 0.7); */
     background-size: auto 90%;
-  }
-  .box-input{
-    text-align: left;
   }
 
 .error-box{
@@ -189,7 +183,9 @@ h2{
     padding: 10px 10px 10px 10px;
     background:#ffecec ;
     border:1px solid #f5aca6;
+    transition: all 1s;
 }
+
 .errormsg{
     margin-top: -20px;
     margin-bottom: 5px;
@@ -198,8 +194,10 @@ h2{
     display: none;
     color: #dd4b39;
     line-height: 17px;
+    transition: all 1s;
 }
-  .button{
+
+.button{
     width: 150px;
     height: 40px;
     color: white;
@@ -207,14 +205,19 @@ h2{
     border: none;
     cursor: pointer;
     opacity: 0.8;
-    margin-top: 15px
-  }
+    font-size: 15px;
+    margin-top: 15px;
+    transition: all 1s;
+}
+
 .button:hover{
     transform: scale(1.1)
 }
+
 .button:active{
     transform: scale(0.9)
 }
+
 .loader {
   position: absolute;
   transform: translate(-50%,-50%);
@@ -227,6 +230,30 @@ h2{
   height: 50px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
+}
+.go-out{
+    cursor: pointer;
+    margin-left: 10px;
+    color: grey;
+    font-size: 20px;
+    /* transition: all 1s; */
+    
+}
+.go-out:hover{
+    transform: scale(1.1);
+    color:rgba(47, 107, 175, 0.8);
+}
+
+.email-conteiner{
+    font-size: 20px;
+    color: grey;
+    transition: all 0s;
+    
+}
+.status-conteiner{
+    margin-top: 20px;
+    display: flex !important;
+    justify-content: space-between;
 }
 
 /* Safari */

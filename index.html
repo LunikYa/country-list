@@ -4,65 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>country list</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <title>Country</title>
+    <link rel="stylesheet" href="./css/main.css">    
 </head>
 <body>
-
     <header class="wrapp">
-        <h1 class="logo">Countries</h1>        
+        <div class="status-conteiner" id="headerstatus">
+            <p id="emailconteiner" class="email-conteiner"></p>
+            <p onclick="goOut(event)" class="go-out">Go out</p>
+        </div>
+        <h1 class="logo">Country List</h1>           
     </header>
 
-    <main class="wrapp">
-        <!-- <div class="conteiner-form">
-            <h2>Log In</h2>
-            <img src="https://png.icons8.com/ultraviolet/1600/login-as-user.png" height="96" width="96" alt="picture">
-            <form action="" onsubmit="">
-                <input type="email" placeholder="Enter you mail" class="default-input">
-                <input type="password" placeholder="Enter you password" class="default-input">        
-                <button type="submit" class="button">LOGIN</button>
-            </form>
-        </div> -->
-       
-        <div class="conteiner-form">
-            <div id='error-conteiner' class="error-box">
-            
-            </div>
-            <h2>Register</h2>
-            
-            <img src="https://png.icons8.com/ultraviolet/1600/login-as-user.png" height="96" width="96" alt="picture">
-            <form id='register-form'>
-                <input onblur="validateInput(event)" type="email" name="email" placeholder="Email" class="default-input">
-                <input onblur="validateInput(event)" type="text" name="name" placeholder="Name" class="default-input">
-                <input onblur="validateInput(event)" type="text" name="surname" placeholder="Surname" class="default-input">
-                <input onblur="validateInput(event)" type="password" name="password" placeholder="Password" class="default-input">
-                <input onblur="validateInput(event)" type="password" name="dblpassword" placeholder="Repeat password" class="default-input">
-                <button type="submit" class="button">LOGIN</button>
-            </form>
-            
-        </div>
-        
-        <div class="task-conteiner">    
-            <div id="conteiner-loader">
-            </div>
-                <!-- <select name="country" id="select-country" class="select-country"></select> -->
-            <div class="conteiner-list left">
-                <input type="text" id="js-input-filter-city" class="new-task" placeholder="Source city" />
-                <div id="js-list-city" class="list-country">                
-                </div>
-            </div>                
-            <div class="conteiner-list right">    
-                <input type="text" id="js-input-filter" class="new-task" placeholder="Source country" />
-                <div id="js-list-country" class="list-country">
-                </div>
-            </div>              
-        </div>
-    </main>     
-    
-    <script src="./js/main.js"></script>
-    <script src="./js/register.js"></script>
-    <script src="./js/login.js"></script>
-    <!-- <script src="./js/country.js"></script> -->
 
+    <main class="wrapp">
+
+        <div id='main-conteiner-lists' class="task-conteiner">
+            
+        </div>
+                
+        <div id="conteiner-form-login">
+            
+        </div>
+        <div id="conteiner-form-register">
+        
+        </div>
+
+    </main>
+
+    <script src="./js/main.js"></script>
+    <script src="./js/country.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="./js/register.js"></script>
+    <script src="./js/App.js"></script>
 </body>
 </html>
