@@ -5,19 +5,19 @@ class App {
     constructor(data) {
         this.data = data;
 
-        document.addEventListener('login-user', (data) => {
+        Emitter.on('login-user', (data) => {
             this.validateUser(data.detail.result, data.detail.nameForm, data.detail.x)
         })
 
-        document.addEventListener('register-user', (data) => {
+        Emitter.on('register-user', (data) => {
             this.validateUser(data.detail.result, data.detail.nameForm, data.detail.x)
         })
 
-        document.addEventListener('go-to-login', (data) => {
+        Emitter.on('go-to-login', (data) => {
             this.init('login')
         })
 
-        document.addEventListener('go-to-register', (data) => {
+        Emitter.on('go-to-register', (data) => {
             this.init('register')
         })
 

@@ -36,7 +36,7 @@ class Country {
     dispatcher(elem) {
         elem.addEventListener('click', (event) => {
             this.selected = event.target.textContent;
-            elem.dispatchEvent(new CustomEvent('country-change', { 'detail': [...this.hash.result[this.selected] || ['default']], bubbles: true }));
+            Emitter.emit('country-change', { 'detail': [...this.hash.result[this.selected] || ['default']], bubbles: true });
         })
     }
 

@@ -106,7 +106,7 @@ class LinkRoute {
         p.className = this.data.class;
         p.textContent = this.data.text;
         p.onclick = (x)=>{
-            document.dispatchEvent(new CustomEvent('go-to-' + this.data.url, { 'detail': { }, bubbles: true }))};
+            Emitter.emit('go-to-' + this.data.url, { 'detail': { }, bubbles: true })};
         return p
     }
 }

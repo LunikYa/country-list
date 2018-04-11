@@ -40,7 +40,7 @@ class Register {
             }
         }
 
-        x.dispatchEvent(new CustomEvent('register-user', { 'detail': { result: result, nameForm: 'register', x: x }, bubbles: true }));
+        Emitter.emit('register-user', { 'detail': { result: result, nameForm: 'register', x: x }, bubbles: true });
 
         return false;
     }

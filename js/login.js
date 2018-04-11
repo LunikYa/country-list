@@ -40,7 +40,7 @@ class Login {
             }
         }
 
-        x.dispatchEvent(new CustomEvent('login-user', { 'detail': { result: result, nameForm: nameForm.name, x: x} , bubbles: true }));
+        Emitter.emit('login-user', { 'detail': { result: result, nameForm: nameForm.name, x: x} , bubbles: true });
 
         return false;
     }

@@ -13,7 +13,7 @@ class City {
         let cityList    = new List(elemCity, { title: 'City', items: ['No matches'], selected: 'default' });           
             inputFilterCity.addEventListener('input', cityList.filterItems.bind(cityList, { criterion: inputFilterCity }))
 
-            this.elem.addEventListener('country-change',
+            Emitter.on('country-change',
                 (data) => {
                     cityList.data.items = data.detail;
                     cityList.render()
