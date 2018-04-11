@@ -3,11 +3,11 @@
     margin: 0;
     outline: none;
     font-family: Arial, Helvetica, sans-serif;
-    transition: all 0.5s;
+    /* transition: all 0.5s; */
 }
 
 body{
-    background-color: rgba(228, 236, 238, 0.7);
+    background-color: rgb(228, 236, 238);
 }
 
 h1{
@@ -18,7 +18,6 @@ h1{
     margin: 0 auto;
     max-width: 800px;
     text-align: center;
-    background-color: white;
 }
 
 .logo{
@@ -26,16 +25,29 @@ h1{
     color: rgba(47, 107, 175, 0.15);
 }
 
+.link{
+    font-size: 12px;
+    color: rgb(47, 107, 175);
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 1s;
+}
+
+.link:hover{
+    transform: scale(1.3)
+}
 .new-task{
     width: 100%;
     height: 50px;
-    padding-left: 50px;
+    padding-left: 10px;
     border: none;
     font-size: 20px;
-    border-bottom: 2px solid rgba(228, 236, 238, 0.7);
+    background-color:rgb(228, 236, 238);
+    border-bottom: 2px solid rgba(47, 107, 175, 0.8);
 }
 
 .task-conteiner{
+    /* display: none; */
     text-align: left;
     font-size: 20px;
     box-shadow: 0 5px 5px rgba(0,0,0,0.7);
@@ -46,91 +58,13 @@ h1{
     padding-bottom: 30px;
 }
 
-.list-item{
-    margin-top: 20px;
-    border-bottom: 2px solid rgba(228, 236, 238, 0.7);
-}
-
-.list-item-complete{
-    opacity: 0.5;
-    color: grey;
-    text-decoration: line-through;
-    margin-top: 20px;
-    border-bottom: 2px solid rgba(228, 236, 238, 0.7);
-}
-
-.list-tasks{
-    list-style: none;
-    margin-bottom: 20px;
-}
-
-.img-del{
-    float: right;
-    margin-right: 10px;
-    opacity: 0;
-    width: 15px;
-    cursor: pointer;
-}
-
-.list-item:hover .img-del{
-    opacity: 0.7;
-}
-
-.img-del:hover{
-    opacity: 0.7;
-}
-
-.img-complete{
-    float: left;
-    padding: 0px 10px 10px 10px;
-    width: 20px;
-    cursor: pointer;
-}
-
-.img-complete-all{
-    width: 40px;
-    cursor: pointer;
-    position: absolute;
-    margin-top: 5px;
-    margin-left: 5px;
-}
-
-.stats{
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-}
-
-.button-clear{
-    cursor: pointer;
-}
-
-.button-clear:hover{
-    color: rgb(175, 47, 47)
-}
-
-.div-sort{
-    display: flex;
-    justify-content: center;
-    padding-top: 15px;
-    box-shadow: 0 5px 5px rgba(0,0,0,0.7)
-}
-
-.item-sorter{
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-left: 10px;
-    border-radius: 10px;
-    border: 1px solid grey;
-}
 .list-city p{
     padding: 10px 20px;
     cursor: pointer;
     margin-left: 10px;
     border-bottom: 1px solid grey;
 }
+
 .item-sorter:hover{
     color: rgb(175, 47, 47);
     padding: 10px 20px;
@@ -147,16 +81,194 @@ h1{
     margin-left: 10px;
 }
 
-.select-country{
+.list-country{
     width: 100%;
-    height: 50px;
-    font-size: 20px;
-    padding-left: 10px;
-    background-color: rgba(47, 107, 175, 0.15);
-    border: none;
-    cursor: pointer;
+    display: inline-block;
+    margin-left: 20px;
 }
 
-.select-country options{
-    padding-bottom: 500px;
+.conteiner-list{
+    width: 45%;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
+
+.list-general {
+    list-style: none;
+    margin: 0;
+    width: 100%;
+}
+.list-general li {
+    margin: 10px 0;
+    position: relative;
+    cursor: pointer;
+}
+.list-general a {
+    color: #808285;
+    text-decoration: none;
+    border-left: 6px solid #ABC7EA;
+    display: block;
+    padding-left: 25px;
+    height: 44px;
+    font-size: 20px;
+    position: relative;
+    transition: 0.3s linear;
+}
+.list-general a:before {
+    content: "";
+    width: 6px;
+    height: 70%;
+    background: #EE997C;
+    position: absolute;
+    top: 15%;
+    left: -12px;
+}
+.list-general li:before {
+    content: "";
+    width: 6px;
+    height: 40%;
+    background: #EFDD89;
+    position: absolute;
+    top: 30%;
+    left: -12px;
+}
+.list-general a:hover {
+    background: rgba(47, 107, 175, 0.15);
+}
+
+h2{
+    color: rgba(47, 107, 175, 0.8);
+    margin-bottom: 15px;
+}
+
+.conteiner-form{
+    width: 100%;
+    height: 100%;
+    background-color:rgba(228, 236, 238, 0.7);
+    margin-top: 20px;    
+}
+
+.conteiner-form form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+  .default-input{
+    width: 280px;
+    height: 40px;
+    outline: none;
+    margin-bottom: 25px;
+    padding-left: 10px;
+    border: 1px solid black;
+    background-size: auto 90%;
+  }
+
+.error-box{
+    display: none;
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    z-index: 9999999;
+    color:#555;
+    border-radius:10px;
+    font-family: Tahoma,Geneva,Arial,sans-serif;
+    font-size:15px;
+    padding: 10px 10px 10px 10px;
+    background:#ffecec ;
+    border:1px solid #f5aca6;
+    transition: all 1s;
+}
+
+.errormsg{
+    margin-top: -20px;
+    margin-bottom: 5px;
+    /* margin-top: -20px; */
+    font-size: 14px;
+    display: none;
+    color: #dd4b39;
+    line-height: 17px;
+    transition: all 1s;
+}
+
+.button{
+    width: 150px;
+    height: 40px;
+    color: white;
+    background-color: rgba(0, 119, 177, 0.6);
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    font-size: 15px;
+    margin-top: 15px;
+    transition: all 1s;
+}
+
+.button:hover{
+    transform: scale(1.1)
+}
+
+.button:active{
+    transform: scale(0.9)
+}
+
+.loader {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 40%;
+  left: 47%;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+.go-out{
+    cursor: pointer;
+    margin-left: 10px;
+    color: grey;
+    font-size: 20px;
+    /* transition: all 1s; */
+    
+}
+.go-out:hover{
+    transform: scale(1.1);
+    color:rgba(47, 107, 175, 0.8);
+}
+
+.email-conteiner{
+    font-size: 20px;
+    color: grey;
+    transition: all 0s;
+    
+}
+.status-conteiner{
+    margin-top: 20px;
+    display: flex !important;
+    justify-content: space-between;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 460px){
+    .logo{
+        font-size: 50px;
+    }
 }

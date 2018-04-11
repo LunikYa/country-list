@@ -4,23 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>countru list</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <title>Country</title>
+    <link rel="stylesheet" href="./css/main.css">    
 </head>
 <body>
     <header class="wrapp">
-        <h1 class="logo">Countries</h1>        
+        <div class="status-conteiner" id="headerstatus">
+            <p id="emailconteiner" class="email-conteiner"></p>
+            <p onclick="goOut(event)" class="go-out">Go out</p>
+        </div>
+        <h1 class="logo">Country List</h1>           
     </header>
 
-    <main class="wrapp">        
-        <div class="task-conteiner">            
-            <input type="text" id="js-input-sort" class="new-task" placeholder="Find City"/>           
-                <select name="country" id="select-country" class="select-country"></select>
-                <div id="list-city" class="list-city">                    
-                </div>
+
+    <main class="wrapp">
+
+        <div id='main-conteiner-lists' class="task-conteiner">
+            
         </div>
-    </main>     
-    
-    <script src="./js/main.js"></script>
+                
+        <div id="conteiner-form-login">
+            
+        </div>
+        <div id="conteiner-form-register">
+        
+        </div>
+
+    </main>
+
+    <!-- <script src="./js/main.js"></script> -->
+    <script src="./js/country.js"></script>
+    <script src="./js/forms.js"></script>
+    <!-- <script src="./js/register.js"></script> -->
+    <script src="./js/App.js"></script>
 </body>
 </html>
