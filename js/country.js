@@ -1,25 +1,3 @@
-let    mainConteiner = document.getElementById('main-conteiner-lists');
-
-function httpGet(url) {      
-    return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onload = function () {
-            if (this.status == 200) {
-                resolve(this.response);
-            } else {
-                var error = new Error(this.statusText);
-                error.code = this.status;
-                reject(error);
-            }
-        };
-        xhr.onerror = function () {
-            reject(new Error("Network Error"));
-        };
-        xhr.send();
-    });
-}
-
 class List {
     constructor(elem, data){
         this.elem = elem;
@@ -54,11 +32,13 @@ class List {
             list.appendChild(a);
         })
         this.elem.prepend(h2);
-        this.elem.appendChild(list);
-        
+        this.elem.appendChild(list);        
     }    
     removeList(){
         this.elem.textContent = '';
+    }
+    addItem(item){
+        this.data.items.push(item);
     }    
     filterItems(option){
         let val = option.criterion.value,
@@ -70,6 +50,3 @@ class List {
         this.render(arr);
     }
 }
-
-let url = 'https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json';
-    // linkToCountry = new LinkRoute({ class: 'link', text: 'Register', url: 'register' }),
