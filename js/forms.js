@@ -11,7 +11,7 @@ class Form {
         form.noValidate = true;
 
         for (let i = 0; i < arrInp.length; i++) {
-            let div = new ErrorBox({ eventName: arrInp[i].type + i })
+            let div = new ErrorBox({ eventName: arrInp[i].type + i });
             arrInp[i].setAttribute('data-index', i)
             form.appendChild(arrInp[i]);
             form.appendChild(div.render(arrInp[i]));

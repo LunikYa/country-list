@@ -94,7 +94,7 @@ function renderСondition(route){
                     for (let key in hash.result) {
                         hash.countries.push(key);
                     }
-
+                    
                     countryList.data.items = [...hash.countries];
                     countryList.render();
                 },
