@@ -5,4 +5,4 @@
 <!-- blank line -->
 
 Доступно по ссылке
-[Generator][gener]
+[country-list][gener]
