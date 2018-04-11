@@ -1,39 +1,28 @@
-const eventify = (self) => {
-    self.events = {}
-
-    self.on = function (event, listener) {
-        if (typeof self.events[event] !== 'object') {
-            self.events[event] = []
-        }
-
-        self.events[event].push(listener)
+class Emiter {
+    constructor(){
+        this.events = {}
     }
 
-    self.removeListener = function (event, listener) {
-        let idx
-
-        if (typeof self.events[event] === 'object') {
-            idx = self.events[event].indexOf(listener)
-
-            if (idx > -1) {
-                self.events[event].splice(idx, 1)
-            }
+    on(event, listeners){
+        if(!this.events.hasOwnProperty(event)){
+            this.events[event] = []
         }
+        this.events[event].push(listeners)
     }
 
-    self.emit = function (event) {
+    emit(event){
         var i, listeners, length, args = [].slice.call(arguments, 1);
 
-        if (typeof self.events[event] === 'object') {
-            listeners = self.events[event].slice()
+        if (this.events.hasOwnProperty(event)){
+            listeners = this.events[event].slice()
             length = listeners.length
 
             for (i = 0; i < length; i++) {
-                listeners[i].apply(self, args)
-            }
-        }
+                listeners[i].apply(this, args)
+            }            
+        }            
     }
 }
 
-const Emitter = {}
-eventify(Emitter)
+let Emitter = new Emiter();
+
