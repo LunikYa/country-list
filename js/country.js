@@ -1,52 +1,63 @@
-class List {
-    constructor(elem, data){
+class Country {
+    constructor(elem){
         this.elem = elem;
-        this.data = data;  
-    }
-    render(arr){
-        this.removeList();        
-        let items = arr || this.data.items,
-            h2    = document.createElement('h2'),
-            list  = document.createElement('ul');
-        
-            h2.textContent = this.data.title || 'title is empty';
-            list.classList.add('list-general');
-            
-        if (this.data.defaultEvent) 
-                list.addEventListener('click', (event)=>
-                {                
-                    this.selected = event.target.textContent;                
-                    list.dispatchEvent(this.data.defaultEvent);
-                })
-       
-        if (items.length == 0){
-            items.push(['No matches'])
+        this.hash = {
+            result: [],
+            countries: []
         }
-
-        items.forEach((item)=> {
-            let a  = document.createElement('a'),
-                li = document.createElement('li');
-            
-            li.textContent = item;
-            a.appendChild(li)     
-            list.appendChild(a);
-        })
-        this.elem.prepend(h2);
-        this.elem.appendChild(list);        
-    }    
-    removeList(){
-        this.elem.textContent = '';
+        this.init();
     }
-    addItem(item){
-        this.data.items.push(item);
-    }    
-    filterItems(option){
-        let val = option.criterion.value,
-            arr = [];     
-            arr = (this.data.items.filter((a) => 
-            {
-                return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
-            }))        
-        this.render(arr);
+
+    init(elem){
+        this.renderBoxStyles(this.elem);
+
+        let inputFilterCountry = document.getElementById('js-input-filter'),
+            elemCountry        = document.getElementById('js-list-country'),
+            countryList        = new List(elemCountry, { title: 'Country', items: ['No matches'], defaultEvent: new CustomEvent('country-change', { 'detail': this.curruntCountry, bubbles: true }), selected: 'default' });
+            inputFilterCountry.addEventListener('input', countryList.filterItems.bind(countryList, { criterion: inputFilterCountry }))
+        
+        this.dispatcher(elemCountry)
+            
+        httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
+            .then(
+                response => {
+                    this.hash.result = JSON.parse(response);
+                    for (let key in this.hash.result) {
+                        this.hash.countries.push(key);
+                    }
+                    countryList.data.items = [...this.hash.countries];
+                    countryList.render();
+                },
+                reject => {
+                    console.log(reject)
+                });
+    }
+
+    dispatcher(elem) {
+        elem.addEventListener('click', (event) => {
+            this.selected = event.target.textContent;
+            elem.dispatchEvent(new CustomEvent('country-change', { 'detail': [...this.hash.result[this.selected] || ['default']], bubbles: true }));
+        })
+    }
+
+    renderBoxStyles(mainConteiner) {
+        emailconteiner.textContent = sessionStorage.user;
+        headerstatus.style.visibility = 'visible';        
+    let box1 = document.createElement('div');
+        box1.classList.add('conteiner-list', 'right');
+
+    let inputCountry = document.createElement('input');
+        inputCountry.type = 'text';
+        inputCountry.id = 'js-input-filter';
+        inputCountry.placeholder = 'Source country';
+        inputCountry.className = 'new-task';
+
+    let boxListCountry = document.createElement('div');
+        boxListCountry.id = 'js-list-country';
+        boxListCountry.className = 'list-country';
+
+        box1.appendChild(inputCountry);
+        box1.appendChild(boxListCountry);
+        mainConteiner.appendChild(box1);
     }
 }

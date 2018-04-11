@@ -3,22 +3,23 @@ class Form {
         this.data = data;
     }
     render(arrOptions) {
-        let options = arrOptions || this.data.inputsOptions || [],
-            form = document.createElement('form'),
-            arrInp = options.map(x => { return this.createInput(x) });
-        form.name = this.data.nameForm || 'default';
-        form.onsubmit = this.data.actionSubmit;
-        form.noValidate = true;
+        let options         = arrOptions || this.data.inputsOptions || [],
+            form            = document.createElement('form'),
+            arrInp          = options.map(x => { return this.createInput(x) });
+            form.name       = this.data.nameForm || 'default';
+            form.onsubmit   = this.data.actionSubmit;
+            form.noValidate = true;
+            form.method     = 'post';
 
         for (let i = 0; i < arrInp.length; i++) {
-            let div = new ErrorBox({ eventName: arrInp[i].type + i });
+            let div = new ErrorBox({ eventName: arrInp[i].type + i })
             arrInp[i].setAttribute('data-index', i)
             form.appendChild(arrInp[i]);
             form.appendChild(div.render(arrInp[i]));
         }
         let buttonReg = new ButtonSubmit({ class: 'button', text: 'Submit' });
-        form.appendChild(buttonReg.render());
-        this.pasteForm(form);
+            form.appendChild(buttonReg.render());
+
         return form
     }
 
@@ -45,7 +46,7 @@ class Input {
         this.data = data;
     }
     render(obj) {
-        let input = document.createElement('input'),
+        let input   = document.createElement('input'),
             options = obj || this.data.options || {};
         input.className = options.class;
 
@@ -98,16 +99,14 @@ class ErrorBox {
 class LinkRoute {
     constructor(data) {
         this.data = data;
+        this.render()
     }
     render() {
         let p = document.createElement('p');
         p.className = this.data.class;
         p.textContent = this.data.text;
-        // console.log('this.data.url', this.data.url)
-        p.onclick = renderСondition.bind(this, this.data.url)
-        // p.onclick = (function (params) {
-        //     window.location.href = this.data.url
-        // }).bind(this)
+        p.onclick = (x)=>{
+            document.dispatchEvent(new CustomEvent('go-to-' + this.data.url, { 'detail': { }, bubbles: true }))};
         return p
     }
 }
@@ -129,6 +128,7 @@ class ButtonSubmit {
 class Caption {
     constructor(data) {
         this.data = data;
+        this.render()
     }
     render() {
         let h2 = document.createElement('h2');
@@ -136,6 +136,66 @@ class Caption {
         h2.textContent = this.data.text || '';
         // h2.addEventListener('click', this.data.event)
         return h2
+    }
+}
+
+class List {
+    constructor(elem, data) {
+        this.elem = elem;
+        this.data = data;
+    }
+    render(arr) {
+        this.removeList();
+        let items = arr || this.data.items,
+            h2 = document.createElement('h2'),
+            list = document.createElement('ul');
+
+        h2.textContent = this.data.title || 'title is empty';
+        list.classList.add('list-general');
+
+        // if (this.data.defaultEvent)
+        //     list.addEventListener('click', (event) => {
+        //         this.selected = event.target.textContent;
+        //         list.dispatchEvent(this.data.defaultEvent);
+        //     })
+
+        if (items.length == 0) {
+            items.push(['No matches'])
+        }
+
+        items.forEach((item) => {
+            let a = document.createElement('a'),
+                li = document.createElement('li');
+
+            li.textContent = item;
+            a.appendChild(li)
+            list.appendChild(a);
+        })
+        this.elem.prepend(h2);
+        this.elem.appendChild(list);
+    }
+    removeList() {
+        this.elem.textContent = '';
+    }
+    addItem(item) {
+        this.data.items.push(item);
+    }
+    filterItems(option) {
+        let val = option.criterion.value,
+            arr = [];
+        arr = (this.data.items.filter((a) => {
+            return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
+        }))
+        this.render(arr);
+    }
+}
+
+class User {
+    constructor(email, name, surname, password) {
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
     }
 }
 
@@ -186,4 +246,31 @@ function isValidtext(event) {
         showError(error, input)
         return false
     }
+}
+
+
+function httpGet(url) {
+    return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function () {
+            if (this.status == 200) {
+                resolve(this.response);
+            } else {
+                var error = new Error(this.statusText);
+                error.code = this.status;
+                reject(error);
+            }
+        };
+        xhr.onerror = function () {
+            reject(new Error("Network Error"));
+        };
+        xhr.send();
+    });
+}
+
+function showError(error, input) {
+    let event = new CustomEvent(input.type + input.getAttribute('data-index'), { 'detail': error, bubbles: true })
+    input.dispatchEvent(event)
+    input.style.border = '1px solid red'
 }
