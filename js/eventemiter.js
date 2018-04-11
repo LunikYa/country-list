@@ -33,20 +33,7 @@ const eventify = (self) => {
             }
         }
     }
-
-    self.once = function (event, listener) {
-        self.on(event, function g() {
-            self.removeListener(event, g)
-            listener.apply(self, arguments)
-        })
-    }
 }
 
 const Emitter = {}
 eventify(Emitter)
-
-// console.log(Emitter)
-// document.body.onclick = function(){
-//     Emitter.emit('my emit', {'details': {}})
-// }
-// Emitter.on('my emit', (x)=>{console.log('всё ок', x)})
