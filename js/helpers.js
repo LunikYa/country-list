@@ -83,11 +83,11 @@ class ErrorBox {
     render(eventName) {
         let box = document.createElement('div');
         box.textContent = 'error';
-        box.className = 'errormsg';
+        box.className   = 'errormsg';
 
         document.addEventListener(this.data.eventName, (data) => {
             box.style.display = 'block';
-            box.textContent = data.detail.message;
+            box.textContent   = data.detail.message;
         })
         document.addEventListener('HideErrorBox', (data) => {
             data.detail.elem.style.display = 'none';
@@ -132,7 +132,7 @@ class Caption {
     }
     render() {
         let h2 = document.createElement('h2');
-        h2.className = this.data.class || '';
+        h2.className   = this.data.class || '';
         h2.textContent = this.data.text || '';
         return h2
     }

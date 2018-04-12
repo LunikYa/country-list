@@ -1,16 +1,16 @@
 class Country {
     constructor(elem){
         this.elem = elem;
-        this.hash = {
-            result: [],
-            countries: []
-        }
+        
         this.init();
     }
 
     init(elem){
         this.renderBoxStyles(this.elem);
-
+        this.hash = {
+            result: [],
+            countries: []
+        }
         let inputFilterCountry = document.getElementById('js-input-filter'),
             elemCountry        = document.getElementById('js-list-country'),
             countryList        = new List(elemCountry, { title: 'Country', items: ['No matches'], defaultEvent: new CustomEvent('country-change', { 'detail': this.curruntCountry, bubbles: true }), selected: 'default' });

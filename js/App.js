@@ -1,57 +1,55 @@
-let boxForm   = document.getElementById('conteiner-form'),
-    boxLists  = document.getElementById('main-conteiner-lists'),
-    goOut     = document.getElementById('press-to-out');
-
 class App {
     constructor(data) {
+       this.init();
+    }
+
+    init(){
+        // console.log()
+        this.boxForm = document.getElementById('conteiner-form');
+        this.boxLists = document.getElementById('main-conteiner-lists');
+        this.goOut = document.getElementById('press-to-out');
         
+        this.render('login');
+
         Emitter.on('login-user', (data) => {
-            this.init('country');
+            this.render('country');
         })
 
         Emitter.on('register-user-create', (data) => {
             // console.log(data.detail)
-            this.init('country');
+            this.render('country');
         })
 
         Emitter.on('go-to-login', (data) => {
-            this.init('login')
+            this.render('login')
         })
 
         Emitter.on('go-to-register', (data) => {
-            this.init('register')
+            this.render('register')
         })
-        
-        goOut.onclick = this.goOut.bind(this);
-        this.init();
     }
 
-    init(path){
+    render(path){
         this.clearBox()
 
         let route = path || 'login';
         if (route === 'login') {
-            new Login(boxForm)
+            new Login(this.boxForm)
         }
         else if (route === 'register') {
-            new Register(boxForm)
+            new Register(this.boxForm)
         }
         else if (route === 'country') {
-            new Country(boxLists);
-            new City(boxLists);
+            new Country(this.boxLists);
+            new City(this.boxLists);
         }
     }
-    
-    clearBox(){
-        boxLists.style.display = 'none';
-        boxForm.innerHTML = '';
-        boxLists.innerHTML = '';
-        headerstatus.style.visibility = 'hidden';
-    }
 
-    goOut() {
-        sessionStorage.clear();
-        this.init();
+    clearBox(){
+        this.boxLists.style.display = 'none';
+        this.boxForm.innerHTML = '';
+        this.boxLists.innerHTML = '';
+        headerstatus.style.visibility = 'hidden';
     }
 }
 

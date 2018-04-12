@@ -1,8 +1,12 @@
 class Emiter {
     constructor(){
-        this.events = {}
+        this.init();
     }
 
+    init(){
+        this.events = {}
+    }
+    
     on(event, listeners){
         if(!this.events.hasOwnProperty(event)){
             this.events[event] = []
