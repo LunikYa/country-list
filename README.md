@@ -6,3 +6,6 @@
 
 Доступно по ссылке
 [country-list][gener]
+
+login: vasya@com.ua
+pass: 123456
