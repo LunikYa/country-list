@@ -6,6 +6,7 @@ class MainCountry {
     }
 
     init(){
+        this.Emitter = new Emiter();
         this.initCityList();
         this.initCountryList();
         this.countryList.render(this.data.countries);
@@ -18,7 +19,7 @@ class MainCountry {
         this.countryList = new List(this.elemCountry, { title: 'Country', items: ['Do not matches'], selected: 'default' });
 
         this.countryList.addListener('click', (event) => {
-            Emitter.emit('country-change', { 'detail': event.target.textContent || ['default'], bubbles: true });
+            this.Emitter.emit('country-change', { 'detail': event.target.textContent || ['default'], bubbles: true });
         })      
     }
 

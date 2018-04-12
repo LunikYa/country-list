@@ -5,12 +5,17 @@ class Register {
     }
 
     init() {
+        this.Emitter = new Emiter();
         let form       = new Form(formRegisterOptions),
             linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Login', url: 'login' }),
             captionLog = new Caption({ class: '', text: 'Register' }),
             box        = document.createElement('div'),
             domForm    = form.render();
 
+            linkToReg.Emitter.on('go-to-login', (data) => {
+                this.Emitter.emit('go-to-login')
+            })
+            
         domForm.onsubmit = this.validateForm.bind(this, domForm)
 
         box.appendChild(domForm);
@@ -72,7 +77,7 @@ class Register {
                 elem['surname'].value,
                 elem['password'].value
             );
-        Emitter.emit('register-user-create', { 'detail': user, bubbles: true });    
+        this.Emitter.emit('register-user-create', { 'detail': user, bubbles: true });    
         return false
         }
 }

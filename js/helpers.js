@@ -99,14 +99,15 @@ class ErrorBox {
 class LinkRoute {
     constructor(data) {
         this.data = data;
-        this.render()
+        this.Emitter = new Emiter()
+        this.render()        
     }
     render() {
         let p = document.createElement('p');
         p.className = this.data.class;
         p.textContent = this.data.text;
         p.onclick = (x)=>{
-            Emitter.emit('go-to-' + this.data.url, { 'detail': { }, bubbles: true })};
+            this.Emitter.emit('go-to-' + this.data.url, { 'detail': { }, bubbles: true })};
         return p
     }
 }

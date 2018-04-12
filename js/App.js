@@ -1,4 +1,3 @@
-let Emitter = new Emiter();
 
 class App {
     constructor() {
@@ -11,49 +10,49 @@ class App {
             countries: [],
             cities: []
         };
-       
+
         this.boxForm  = document.getElementById('conteiner-form');
         this.boxLists = document.getElementById('main-conteiner-lists');
         this.goOut    = document.getElementById('press-to-out');
-
-        this.render('login');
         
-        Emitter.on('country-change', (data) => {
-            this.hash.cities = this.hash.citiesAndCountries[data.detail];
-            this.render('country');
-        })
-
-        Emitter.on('login-user', (data) => {
-            this.render('country')
-        })
-
-        Emitter.on('register-user-create', (data) => {
-            this.render('country')
-        })
-
-        Emitter.on('go-to-login', (data) => {
-            this.render('login')
-        })
-
-        Emitter.on('go-to-register', (data) => {
-            this.render('register')
-        })
+        this.render('login');
     }
 
     render(path, data){
         this.clearBox()
 
         if (path === 'login') {
-            new Login(this.boxForm)
+            this.login = new Login(this.boxForm)
+            
+            this.login.Emitter.on('login-user', (data) => {
+                this.render('country')
+            })
+            this.login.Emitter.on('go-to-register', (data) => {
+                this.render('register')
+            })
+            
         }
         else if (path === 'register') {
-            new Register(this.boxForm)
+            this.register = new Register(this.boxForm);
+
+            this.register.Emitter.on('login-user', (data) => {
+                this.render('country')
+            })
+            this.register.Emitter.on('go-to-login', (data) => {
+                this.render('login')
+            })
+            
         }
         else if (path === 'country') {
             if (this.hash.countries.length === 0) {
                 this.getDataCountry();
             } else {
-                new MainCountry(this.boxLists, this.hash)
+                this.country = new MainCountry(this.boxLists, this.hash);
+
+                this.country.Emitter.on('country-change', (data) => {
+                    this.hash.cities = this.hash.citiesAndCountries[data.detail];
+                    this.render('country');
+                })
             }            
         }
     }

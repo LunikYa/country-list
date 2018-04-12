@@ -5,12 +5,17 @@ class Login {
     }
 
     init(){
+        this.Emitter = new Emiter();
+
         let form       = new Form(formLoginOptions),
             linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Register', url: 'register' }),
             captionLog = new Caption({ class: '', text: 'Log In' }),
             box        = document.createElement('div'),
             domForm    = form.render();
 
+            linkToReg.Emitter.on('go-to-register', (data) => {
+                this.Emitter.emit('go-to-register')
+            })
             domForm.onsubmit = this.validateForm.bind(this, domForm)
 
             box.appendChild(domForm);
@@ -53,7 +58,7 @@ class Login {
                         throw ({ name: 'ValidUser', message: '*Password is not valid', elem: x.password })
                     }
                     else {
-                        Emitter.emit('login-user', { 'detail': { email: x.email.value }, bubbles: true });
+                        this.Emitter.emit('login-user', { 'detail': { email: x.email.value }, bubbles: true });
                     }
                 }
             } catch (error) {
