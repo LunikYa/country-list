@@ -41,18 +41,19 @@ class Country {
     }
 
     renderBoxStyles(mainConteiner) {
+        document.getElementById('main-conteiner-lists').style.display = 'block';
         emailconteiner.textContent = sessionStorage.user;
         headerstatus.style.visibility = 'visible';        
-    let box1 = document.createElement('div');
+        let box1 = document.createElement('div');
         box1.classList.add('conteiner-list', 'right');
 
-    let inputCountry = document.createElement('input');
+        let inputCountry = document.createElement('input');
         inputCountry.type = 'text';
         inputCountry.id = 'js-input-filter';
         inputCountry.placeholder = 'Source country';
         inputCountry.className = 'new-task';
 
-    let boxListCountry = document.createElement('div');
+        let boxListCountry = document.createElement('div');
         boxListCountry.id = 'js-list-country';
         boxListCountry.className = 'list-country';
 

@@ -39,12 +39,33 @@ class Login {
                 }
             }
         }
-
-        Emitter.emit('login-user', { 'detail': { result: result, nameForm: nameForm.name, x: x} , bubbles: true });
-
+        this.validateUser(result, 'login', x)        
         return false;
     }
 
+    validateUser(result, nameForm, x) {
+        if (result) {
+            try {
+                if (nameForm === 'login') {
+                    if (user.email !== x.email.value) {
+                        throw ({ name: 'ValidUser', message: '*No such email was found', elem: x.email });
+                    } else if (user.password !== x.password.value) {
+                        throw ({ name: 'ValidUser', message: '*Password is not valid', elem: x.password })
+                    }
+                    else {
+                        Emitter.emit('login-user', { 'detail': { email: x.email.value }, bubbles: true });
+                    }
+                }
+            } catch (error) {
+                showError(error, error.elem)
+                event.preventDefault();
+                return false
+            }
+        } else {            
+            event.preventDefault();
+            return false
+        }
+    }
 }
 
 let formLoginOptions =

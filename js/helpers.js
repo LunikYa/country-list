@@ -134,7 +134,6 @@ class Caption {
         let h2 = document.createElement('h2');
         h2.className = this.data.class || '';
         h2.textContent = this.data.text || '';
-        // h2.addEventListener('click', this.data.event)
         return h2
     }
 }
@@ -152,12 +151,6 @@ class List {
 
         h2.textContent = this.data.title || 'title is empty';
         list.classList.add('list-general');
-
-        // if (this.data.defaultEvent)
-        //     list.addEventListener('click', (event) => {
-        //         this.selected = event.target.textContent;
-        //         list.dispatchEvent(this.data.defaultEvent);
-        //     })
 
         if (items.length == 0) {
             items.push(['No matches'])
