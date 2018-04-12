@@ -74,7 +74,7 @@ class Register {
             );
         Emitter.emit('register-user-create', { 'detail': user, bubbles: true });    
         return false
-    }
+        }
 }
 
 let formRegisterOptions =

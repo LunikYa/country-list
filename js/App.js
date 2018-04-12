@@ -7,15 +7,21 @@ class App {
 
     init(){
         this.hash = {
-            citiesInCountries: {},
+            citiesAndCountries: {},
             countries: [],
+            cities: []
         };
-        
+       
         this.boxForm  = document.getElementById('conteiner-form');
         this.boxLists = document.getElementById('main-conteiner-lists');
         this.goOut    = document.getElementById('press-to-out');
 
         this.render('login');
+        
+        Emitter.on('country-change', (data) => {
+            this.hash.cities = this.hash.citiesAndCountries[data.detail];
+            this.render('country');
+        })
 
         Emitter.on('login-user', (data) => {
             this.render('country')
@@ -48,8 +54,7 @@ class App {
                 this.getDataCountry();
             } else {
                 new MainCountry(this.boxLists, this.hash)
-            }
-            
+            }            
         }
     }
 
@@ -57,16 +62,16 @@ class App {
         this.boxLists.style.display = 'none';
         this.boxForm.innerHTML = '';
         this.boxLists.innerHTML = '';
-        headerstatus.style.visibility = 'hidden';
     }
 
     getDataCountry(){        
             httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
                 .then(
                     response => {
-                        this.hash.citiesInCountries = JSON.parse(response);
-                        for (let key in this.hash.citiesInCountries) {
+                        this.hash.citiesAndCountries = JSON.parse(response);
+                        for (let key in this.hash.citiesAndCountries) {
                             this.hash.countries.push(key);
+                            this.hash.cities = this.hash.citiesAndCountries['Afghanistan'];
                         }
                         this.render('country')                    
                     },

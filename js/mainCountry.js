@@ -6,15 +6,10 @@ class MainCountry {
     }
 
     init(){
-        Emitter.on('country-change', (data) => {
-            this.cityList.render(data.detail)
-        })
-
         this.initCityList();
         this.initCountryList();
-
         this.countryList.render(this.data.countries);
-        this.cityList.render(this.data.citiesInCountries['Afghanistan'])
+        this.cityList.render(this.data.cities)
     }
 
     initCountryList(){
@@ -23,8 +18,7 @@ class MainCountry {
         this.countryList = new List(this.elemCountry, { title: 'Country', items: ['Do not matches'], selected: 'default' });
 
         this.countryList.addListener('click', (event) => {
-            this.countryList.selected = event.target.textContent;
-            Emitter.emit('country-change', { 'detail': this.data.citiesInCountries[this.countryList.selected] || ['default'], bubbles: true });
+            Emitter.emit('country-change', { 'detail': event.target.textContent || ['default'], bubbles: true });
         })      
     }
 
