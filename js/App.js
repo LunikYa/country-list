@@ -4,11 +4,11 @@ class App {
     }
 
     init(){
-        // console.log()
-        this.boxForm = document.getElementById('conteiner-form');
+
+        this.boxForm  = document.getElementById('conteiner-form');
         this.boxLists = document.getElementById('main-conteiner-lists');
-        this.goOut = document.getElementById('press-to-out');
-        
+        this.goOut    = document.getElementById('press-to-out');
+
         this.render('login');
 
         Emitter.on('login-user', (data) => {
@@ -32,7 +32,6 @@ class App {
     render(path){
         this.clearBox()
 
-        let route = path || 'login';
         if (route === 'login') {
             new Login(this.boxForm)
         }
