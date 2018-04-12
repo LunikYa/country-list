@@ -6,7 +6,7 @@ class Emiter {
     init(){
         this.events = {}
     }
-    
+
     on(event, listeners){
         if(!this.events.hasOwnProperty(event)){
             this.events[event] = []
@@ -28,5 +28,5 @@ class Emiter {
     }
 }
 
-let Emitter = new Emiter();
+
 

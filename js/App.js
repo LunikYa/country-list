@@ -1,10 +1,16 @@
+let Emitter = new Emiter();
+
 class App {
-    constructor(data) {
+    constructor() {
        this.init();
     }
 
     init(){
-
+        this.hash = {
+            citiesInCountries: {},
+            countries: [],
+        };
+        
         this.boxForm  = document.getElementById('conteiner-form');
         this.boxLists = document.getElementById('main-conteiner-lists');
         this.goOut    = document.getElementById('press-to-out');
@@ -12,12 +18,11 @@ class App {
         this.render('login');
 
         Emitter.on('login-user', (data) => {
-            this.render('country');
+            this.render('country')
         })
 
         Emitter.on('register-user-create', (data) => {
-            // console.log(data.detail)
-            this.render('country');
+            this.render('country')
         })
 
         Emitter.on('go-to-login', (data) => {
@@ -29,18 +34,22 @@ class App {
         })
     }
 
-    render(path){
+    render(path, data){
         this.clearBox()
 
-        if (route === 'login') {
+        if (path === 'login') {
             new Login(this.boxForm)
         }
-        else if (route === 'register') {
+        else if (path === 'register') {
             new Register(this.boxForm)
         }
-        else if (route === 'country') {
-            new Country(this.boxLists);
-            new City(this.boxLists);
+        else if (path === 'country') {
+            if (this.hash.countries.length === 0) {
+                this.getDataCountry();
+            } else {
+                new MainCountry(this.boxLists, this.hash)
+            }
+            
         }
     }
 
@@ -50,8 +59,23 @@ class App {
         this.boxLists.innerHTML = '';
         headerstatus.style.visibility = 'hidden';
     }
-}
 
+    getDataCountry(){        
+            httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
+                .then(
+                    response => {
+                        this.hash.citiesInCountries = JSON.parse(response);
+                        for (let key in this.hash.citiesInCountries) {
+                            this.hash.countries.push(key);
+                        }
+                        this.render('country')                    
+                    },
+                    reject => {
+                        console.log(reject)
+                    }
+                );
+            }
+        }
 myApp = new App();
 
 

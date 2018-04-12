@@ -146,8 +146,8 @@ class List {
     render(arr) {
         this.removeList();
         let items = arr || this.data.items,
-            h2 = document.createElement('h2'),
-            list = document.createElement('ul');
+            h2    = document.createElement('h2'),
+            list  = document.createElement('ul');
 
         h2.textContent = this.data.title || 'title is empty';
         list.classList.add('list-general');
@@ -180,6 +180,9 @@ class List {
             return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
         }))
         this.render(arr);
+    }
+    addListener(listener, callback){
+        this.elem.addEventListener(listener, callback)
     }
 }
 
