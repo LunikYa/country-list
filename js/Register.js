@@ -1,7 +1,7 @@
 class Register {
     constructor(conteiner) {
         this.conteiner = conteiner;
-        this.init()
+        this.init();
         this.Emitter = new Emiter();
     }
 
@@ -25,40 +25,37 @@ class Register {
         this.conteiner.appendChild(box);
     }
 
-    validateForm(nameForm) {
-        let x = nameForm,
-            result = true;
-
-        for (let i = 0; i < x.length; i++) {
-            if (x[i].type === 'email') {
-                if (!isValidemail(x[i])) {
+    validateForm(form) {
+        let result = true;
+        for (let i = 0; i < form.length; i++) {
+            if (form[i].type === 'email') {
+                if (!isValidemail(form[i])) {
                     result = false
                 }
-            } else if (x[i].type === 'password') {
-                if (!isValidpassword(x[i])) {
+            } else if (form[i].type === 'password') {
+                if (!isValidpassword(form[i])) {
                     result = false
                 }
-            } else if (x[i].type === 'text') {
-                if (!isValidtext(x[i])) {
+            } else if (form[i].type === 'text') {
+                if (!isValidtext(form[i])) {
                     result = false
                 }
             }
         }
-        this.validateUser(result, 'register', x);
-        return false;
+        this.validateUser(result, form);
     }
+
     on(event, callback) {
         this.Emitter.on(event, callback)
     }
-    validateUser(result, nameForm, x) {
+
+    validateUser(result, form) {
         if (result) {
             try {
-                if (nameForm === 'register') {
-                    if (user.hasOwnProperty(x.email.value)) {
-                        throw ({ name: 'ValidUser', message: '*This email already exists', elem: x.email });
-                    } else {
-                        this.createUser(x);
-                    }
+                if (user.hasOwnProperty(form.email.value)) {
+                    throw ({ name: 'ValidUser', message: '*This email already exists', elem: form.email });
+                } else {
+                    this.createUser(form);
                 }
             } catch (error) {
                 this.showError(error, error.elem)
@@ -71,18 +68,15 @@ class Register {
         }
     }
 
-    createUser(event) {
-        let elem = event.target || event,
-            user = {
-                email: elem['email'].value,
-                name: elem['name'].value,
-                surname: elem['surname'].value,
-                password: elem['password'].value
-            };
-
-        this.Emitter.emit('register-user-create', { 'detail': user, bubbles: true });    
-        return false
-        }
+    createUser(form) {
+        user = {
+            email: form['email'].value,
+            name: form['name'].value,
+            surname: form['surname'].value,
+            password: form['password'].value
+        };
+        this.Emitter.emit('register-user-create', { 'detail': user});    
+    }
 }
 
 let formRegisterOptions =

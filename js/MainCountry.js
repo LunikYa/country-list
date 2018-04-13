@@ -32,7 +32,7 @@ class MainCountry {
             for (let i = 0; i < tempCountries.length; i++){
                 if (tempCountries[i][0] !== 'No matches')
                     this.data[tempCountries[i]].forEach(x => { this.data.cities.push(x)})
-            }                      
+                }                      
             this.cityList.render(this.data.cities);
             this.addFilterListCity(this.data.cities)           
         })

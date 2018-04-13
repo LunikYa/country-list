@@ -1,12 +1,11 @@
 class Login {
     constructor(conteiner){
         this.conteiner = conteiner;
-        this.init()
+        this.init();
         this.Emitter = new Emiter();
     }
 
-    init(){        
-
+    init(){
         let form       = new Form(formLoginOptions),
             linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Register', url: 'register' }),
             captionLog = new Caption({ class: '', text: 'Log In' }),
@@ -16,6 +15,7 @@ class Login {
             linkToReg.on('go-to-register', (data) => {
                 this.Emitter.emit('go-to-register')
             })
+
             domForm.onsubmit = this.validateForm.bind(this, domForm)
 
             box.appendChild(domForm);
@@ -24,53 +24,47 @@ class Login {
 
         this.conteiner.appendChild(box);
     }
+
     on(event, callback) {
         this.Emitter.on(event, callback)
     }
-    validateForm(nameForm) {
-        let x = nameForm,
-            result = true;
 
-        for (let i = 0; i < x.length; i++) {
-            if (x[i].type === 'email') {
-                if (!isValidemail(x[i])) {
+    validateForm(form) {
+        let result = true;
+        for (let i = 0; i < form.length; i++) {
+            if (form[i].type === 'email') {
+                if (!isValidemail(form[i])) {
                     result = false
                 }
-            } else if (x[i].type === 'password') {
-                if (!isValidpassword(x[i])) {
+            } else if (form[i].type === 'password') {
+                if (!isValidpassword(form[i])) {
                     result = false
                 }
-            } else if (x[i].type === 'text') {
-                if (!isValidtext(x[i])) {
+            } else if (form[i].type === 'text') {
+                if (!isValidtext(form[i])) {
                     result = false
                 }
             }
         }
-        this.validateUser(result, 'login', x)        
-        return false;
+        this.validateUser(result, form);
     }
 
-    validateUser(result, nameForm, x) {
+    validateUser(result, form) {
         if (result) {
             try {
-                if (nameForm === 'login') {
-                    if (user.email !== x.email.value) {
-                        throw ({ name: 'ValidUser', message: '*No such email was found', elem: x.email });
-                    } else if (user.password !== x.password.value) {
-                        throw ({ name: 'ValidUser', message: '*Password is not valid', elem: x.password })
-                    }
-                    else {
-                        this.Emitter.emit('login-user', { 'detail': { email: x.email.value }, bubbles: true });
-                    }
+                if (user.email !== form.email.value) {
+                    throw ({ name: 'ValidUser', message: '*No such email was found', elem: form.email });
+                } else if (user.password !== form.password.value) {
+                    throw ({ name: 'ValidUser', message: '*Password is not valid', elem: form.password })
+                } else {
+                    this.Emitter.emit('login-user', { 'detail': { email: form.email.value }});
                 }
             } catch (error) {
                 showError(error, error.elem)
                 event.preventDefault();
-                return false
             }
         } else {            
             event.preventDefault();
-            return false
         }
     }
 }

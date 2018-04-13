@@ -7,7 +7,6 @@ class Form {
             form            = document.createElement('form'),
             arrInp          = options.map(x => { return this.createInput(x) });
             form.name       = this.data.nameForm || 'default';
-            form.onsubmit   = this.data.actionSubmit;
             form.noValidate = true;
             form.method     = 'post';
 
@@ -19,15 +18,12 @@ class Form {
         }
         let buttonReg = new ButtonSubmit({ class: 'button', text: 'Submit' });
             form.appendChild(buttonReg.render());
-
         return form
     }
 
     pasteForm(form) {
-        let actualForm = form || this.data.form;
-
         if (this.data.conteiner) {
-            this.data.conteiner.appendChild(actualForm)
+            this.data.conteiner.appendChild(form)
         } else {
             console.log('we can\'t paste form');
         }
@@ -35,7 +31,7 @@ class Form {
 
     createInput(options) {
         let data = {};
-        data.options = options || {};
+            data.options = options || {};
         let input = new Input(data);
         return (input.render());
     }
@@ -60,8 +56,7 @@ class Input {
     addValidate(input) {
         input.addEventListener('focus', function (event) {
             event.target.style.border = '1px solid black';
-            let hide = new CustomEvent('HideErrorBox', { 'detail': { elem: input.nextElementSibling }, bubbles: true })
-            input.dispatchEvent(hide)
+            Emitter.emit(('HideErrorBox', { 'detail': { elem: input.nextElementSibling }}))
         })
         if (input.type === 'email') {
             input.addEventListener('blur', isValidemail);
@@ -85,11 +80,11 @@ class ErrorBox {
         box.textContent = 'error';
         box.className   = 'errormsg';
 
-        document.addEventListener(this.data.eventName, (data) => {
+        Emitter.on(this.data.eventName, (data) => {
             box.style.display = 'block';
             box.textContent   = data.detail.message;
         })
-        document.addEventListener('HideErrorBox', (data) => {
+        Emitter.on('HideErrorBox', (data) => {
             data.detail.elem.style.display = 'none';
         })
         return box
@@ -150,7 +145,6 @@ class List {
     }
     render(arr) {
         this.removeList();
-        
         let items = arr || this.data.items,
             h2    = document.createElement('h2'),
             list  = document.createElement('ul');
@@ -182,11 +176,10 @@ class List {
 
     filterItems(option, current) {
         this.filtredArr = [];
-
         this.filtredArr = (current.filter((a) => {
-            return !(a.toLowerCase().indexOf(option.value.toLowerCase()) !== 0);
+            if(typeof a === 'string')
+                return !(a.toLowerCase().indexOf(option.value.toLowerCase()) !== 0);
         }))
-
         this.render(this.filtredArr)
     }
     getFiltredList(){
@@ -246,7 +239,6 @@ function isValidtext(event) {
     }
 }
 
-
 function httpGet(url) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -268,7 +260,7 @@ function httpGet(url) {
 }
 
 function showError(error, input) {
-    let event = new CustomEvent(input.type + input.getAttribute('data-index'), { 'detail': error, bubbles: true })
-    input.dispatchEvent(event)
+    Emitter.emit(input.type + input.getAttribute('data-index'), { 'detail': error})
     input.style.border = '1px solid red'
 }
+let Emitter = new Emiter();
