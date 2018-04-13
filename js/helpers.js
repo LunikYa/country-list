@@ -110,6 +110,9 @@ class LinkRoute {
             this.Emitter.emit('go-to-' + this.data.url, { 'detail': { }, bubbles: true })};
         return p
     }
+    on(event, callback) {
+        this.Emitter.on(event, callback)
+    }
 }
 
 class ButtonSubmit {
@@ -143,9 +146,11 @@ class List {
     constructor(elem, data) {
         this.elem = elem;
         this.data = data;
+        this.filtredArr = [];
     }
     render(arr) {
         this.removeList();
+        
         let items = arr || this.data.items,
             h2    = document.createElement('h2'),
             list  = document.createElement('ul');
@@ -153,16 +158,16 @@ class List {
         h2.textContent = this.data.title || 'title is empty';
         list.classList.add('list-general');
 
-        if (items.length == 0) {
+        if (items.length === 0) {
             items.push(['No matches'])
         }
 
         items.forEach((item) => {
-            let a = document.createElement('a'),
+            let a  = document.createElement('a'),
                 li = document.createElement('li');
 
             li.textContent = item;
-            a.appendChild(li)
+            a.appendChild(li);
             list.appendChild(a);
         })
         this.elem.prepend(h2);
@@ -174,25 +179,21 @@ class List {
     addItem(item) {
         this.data.items.push(item);
     }
-    filterItems(option) {
-        let val = option.criterion.value,
-            arr = [];
-        arr = (this.data.items.filter((a) => {
-            return !(a.toLowerCase().indexOf(val.toLowerCase()) !== 0);
+
+    filterItems(option, current) {
+        this.filtredArr = [];
+
+        this.filtredArr = (current.filter((a) => {
+            return !(a.toLowerCase().indexOf(option.value.toLowerCase()) !== 0);
         }))
-        this.render(arr);
+
+        this.render(this.filtredArr)
+    }
+    getFiltredList(){
+        return this.filtredArr
     }
     addListener(listener, callback){
         this.elem.addEventListener(listener, callback)
-    }
-}
-
-class User {
-    constructor(email, name, surname, password) {
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
     }
 }
 
@@ -252,7 +253,7 @@ function httpGet(url) {
         xhr.open('GET', url, true);
         xhr.onload = function () {
             if (this.status == 200) {
-                resolve(this.response);
+                resolve(JSON.parse(this.response));
             } else {
                 var error = new Error(this.statusText);
                 error.code = this.status;

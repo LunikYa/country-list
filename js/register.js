@@ -2,17 +2,17 @@ class Register {
     constructor(conteiner) {
         this.conteiner = conteiner;
         this.init()
+        this.Emitter = new Emiter();
     }
 
-    init() {
-        this.Emitter = new Emiter();
+    init() {        
         let form       = new Form(formRegisterOptions),
             linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Login', url: 'login' }),
             captionLog = new Caption({ class: '', text: 'Register' }),
             box        = document.createElement('div'),
             domForm    = form.render();
 
-            linkToReg.Emitter.on('go-to-login', (data) => {
+            linkToReg.on('go-to-login', (data) => {
                 this.Emitter.emit('go-to-login')
             })
             
@@ -47,7 +47,9 @@ class Register {
         this.validateUser(result, 'register', x);
         return false;
     }
-
+    on(event, callback) {
+        this.Emitter.on(event, callback)
+    }
     validateUser(result, nameForm, x) {
         if (result) {
             try {
@@ -71,12 +73,13 @@ class Register {
 
     createUser(event) {
         let elem = event.target || event,
-            user = new User(
-                elem['email'].value,
-                elem['name'].value,
-                elem['surname'].value,
-                elem['password'].value
-            );
+            user = {
+                email: elem['email'].value,
+                name: elem['name'].value,
+                surname: elem['surname'].value,
+                password: elem['password'].value
+            };
+
         this.Emitter.emit('register-user-create', { 'detail': user, bubbles: true });    
         return false
         }

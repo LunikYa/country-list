@@ -2,10 +2,10 @@ class Login {
     constructor(conteiner){
         this.conteiner = conteiner;
         this.init()
+        this.Emitter = new Emiter();
     }
 
-    init(){
-        this.Emitter = new Emiter();
+    init(){        
 
         let form       = new Form(formLoginOptions),
             linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Register', url: 'register' }),
@@ -13,7 +13,7 @@ class Login {
             box        = document.createElement('div'),
             domForm    = form.render();
 
-            linkToReg.Emitter.on('go-to-register', (data) => {
+            linkToReg.on('go-to-register', (data) => {
                 this.Emitter.emit('go-to-register')
             })
             domForm.onsubmit = this.validateForm.bind(this, domForm)
@@ -24,7 +24,9 @@ class Login {
 
         this.conteiner.appendChild(box);
     }
-
+    on(event, callback) {
+        this.Emitter.on(event, callback)
+    }
     validateForm(nameForm) {
         let x = nameForm,
             result = true;
