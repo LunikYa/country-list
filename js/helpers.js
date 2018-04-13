@@ -56,7 +56,7 @@ class Input {
     addValidate(input) {
         input.addEventListener('focus', function (event) {
             event.target.style.border = '1px solid black';
-            Emitter.emit(('HideErrorBox', { 'detail': { elem: input.nextElementSibling }}))
+            Emitter.emit(('HideErrorBox', { 'detail':  input.nextElementSibling }))
         })
         if (input.type === 'email') {
             input.addEventListener('blur', isValidemail);
@@ -84,8 +84,9 @@ class ErrorBox {
             box.style.display = 'block';
             box.textContent   = data.detail.message;
         })
+
         Emitter.on('HideErrorBox', (data) => {
-            data.detail.elem.style.display = 'none';
+            data.detail.style.display = 'none';
         })
         return box
     }
@@ -197,7 +198,8 @@ function isValidemail(event) {
         if (!regExpEmail.test(input.value)) {
             throw ({ name: 'isValidEmail', message: '*Email is not valid', elem: input })
         }
-        input.style.border = '1px solid green';
+        input.style.border = '1px solid green';        
+        Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
         return true
     } catch (error) {
         showError(error, input)
@@ -215,6 +217,7 @@ function isValidpassword(event) {
             throw ({ name: 'isValidPassword', message: '*Password must be 6 or more characters', elem: input })
         }
         input.style.border = '1px solid green';
+        Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
         return true
     } catch (error) {
         showError(error, input)
@@ -232,6 +235,7 @@ function isValidtext(event) {
             throw ({ name: 'isValidText', message: '*This field must be 3 or more characters', elem: input })
         }
         input.style.border = '1px solid green';
+        Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
         return true
     } catch (error) {
         showError(error, input)
@@ -253,7 +257,7 @@ function httpGet(url) {
             }
         };
         xhr.onerror = function () {
-            reject(new Error("Network Error"));
+            reject(new Error('Network Error'));
         };
         xhr.send();
     });

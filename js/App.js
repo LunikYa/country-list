@@ -2,13 +2,11 @@ class App {
     constructor() {
        this.init();
     }
-
     init(){
         this.boxForm  = document.getElementById('conteiner-form');
         this.boxLists = document.getElementById('main-conteiner-lists');       
         this.render('login');
     }
-
     render(path){
         this.clearBox()
 

@@ -70,9 +70,9 @@ class Register {
 
     createUser(form) {
         user = {
-            email: form['email'].value,
-            name: form['name'].value,
-            surname: form['surname'].value,
+            email:    form['email'].value,
+            name:     form['name'].value,
+            surname:  form['surname'].value,
             password: form['password'].value
         };
         this.Emitter.emit('register-user-create', { 'detail': user});    
