@@ -5,8 +5,7 @@ class App {
 
     init(){
         this.boxForm  = document.getElementById('conteiner-form');
-        this.boxLists = document.getElementById('main-conteiner-lists');
-       
+        this.boxLists = document.getElementById('main-conteiner-lists');       
         this.render('login');
     }
 
