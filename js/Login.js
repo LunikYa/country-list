@@ -16,7 +16,7 @@ class Login {
                 this.Emitter.emit('go-to-register')
             })
 
-            domForm.onsubmit = this.validateForm.bind(this, domForm)
+            domForm.addEventListener('submit', this.validateForm.bind(this, domForm))
 
             box.appendChild(domForm);
             box.prepend(captionLog.render());
