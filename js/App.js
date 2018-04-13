@@ -29,8 +29,7 @@ class App {
             })
             this.login.Emitter.on('go-to-register', (data) => {
                 this.render('register')
-            })
-            
+            })            
         }
         else if (path === 'register') {
             this.register = new Register(this.boxForm);
@@ -40,8 +39,7 @@ class App {
             })
             this.register.Emitter.on('go-to-login', (data) => {
                 this.render('login')
-            })
-            
+            })            
         }
         else if (path === 'country') {
             if (this.hash.countries.length === 0) {
@@ -64,22 +62,22 @@ class App {
     }
 
     getDataCountry(){        
-            httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
-                .then(
-                    response => {
-                        this.hash.citiesAndCountries = JSON.parse(response);
-                        for (let key in this.hash.citiesAndCountries) {
-                            this.hash.countries.push(key);
-                            this.hash.cities = this.hash.citiesAndCountries['Afghanistan'];
-                        }
-                        this.render('country')                    
-                    },
-                    reject => {
-                        console.log(reject)
+        httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
+            .then(
+                response => {
+                    this.hash.citiesAndCountries = JSON.parse(response);
+                    for (let key in this.hash.citiesAndCountries) {
+                        this.hash.countries.push(key);
+                        this.hash.cities = this.hash.citiesAndCountries['Afghanistan'];
                     }
-                );
-            }
+                    this.render('country')                    
+                },
+                reject => {
+                    console.log(reject)
+                }
+            );
         }
+    }
 myApp = new App();
 
 

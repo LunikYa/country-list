@@ -149,7 +149,7 @@ class List {
         let items = arr || this.data.items,
             h2    = document.createElement('h2'),
             list  = document.createElement('ul');
-
+        
         h2.textContent = this.data.title || 'title is empty';
         list.classList.add('list-general');
 
