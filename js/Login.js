@@ -16,7 +16,7 @@ class Login {
                 this.Emitter.emit('go-to-register')
             })
 
-            domForm.addEventListener('submit', this.validateForm.bind(this, domForm))
+            domForm.addEventListener('submit', e => {this.validateForm.call(this, domForm, e)}, false)
 
             box.appendChild(domForm);
             box.prepend(captionLog.render());
@@ -29,7 +29,7 @@ class Login {
         this.Emitter.on(event, callback)
     }
 
-    validateForm(form) {
+    validateForm(form, event) {
         let result = true;
         for (let i = 0; i < form.length; i++) {
             if (form[i].type === 'email') {
@@ -47,6 +47,7 @@ class Login {
             }
         }
         this.validateUser(result, form);
+        event.preventDefault();
     }
 
     validateUser(result, form) {
