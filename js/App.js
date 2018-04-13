@@ -1,6 +1,7 @@
 class App {
     constructor() {
-       this.init();
+        this.Emitter = new Emiter();
+        this.init();
     }
     init(){
         this.boxForm  = document.getElementById('conteiner-form');
@@ -32,7 +33,10 @@ class App {
         }
         else if (path === 'country') {
             if (!this.data) {
-                this.getDataCountry();
+                this.getDataCountries()
+                .then( resolve =>{
+                    this.country = new MainCountry(this.boxLists, this.data)
+                })      
             } else {
                 this.country = new MainCountry(this.boxLists, this.data);
             }            
@@ -45,19 +49,22 @@ class App {
         this.boxLists.innerHTML = '';
     }
 
-    getDataCountry(){        
-        httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
-            .then(
-                response => {
-                    this.data = response;
-                    this.render('country')                    
-                },
-                reject => {
-                    console.log(reject)
-                }
-            );
-        }
+    getDataCountries(){
+        return new Promise ( (resolve, reject) => {
+            httpGet('https://raw.githubusercontent.com/meMo-Minsk/all-countries-and-cities-json/master/countries.min.json')
+                .then(
+                    response => {
+                        this.data = response;
+                        resolve(response);
+                    },
+                    reject => {
+                        console.log(reject)
+                    }
+                );
+        
+        })
     }
+}
 myApp = new App();
 
 
