@@ -15,7 +15,6 @@ class App {
             this.login = new Login(this.boxForm)
             
             this.login.on('login-user', (data) => {
-                console.log(data)
                 this.render('country')
             })
             this.login.on('go-to-register', (data) => {
