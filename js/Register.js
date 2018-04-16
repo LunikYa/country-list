@@ -1,8 +1,8 @@
 class Register {
     constructor(conteiner) {
         this.conteiner = conteiner;
-        this.init();
         this.Emitter = new Emiter();
+        this.init();
     }
 
     init() {

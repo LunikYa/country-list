@@ -150,7 +150,7 @@ class LinkRoute {
         let p         = document.createElement('p');
         p.className   = this.data.class;
         p.textContent = this.data.text;
-        p.onclick = (x)=>{
+        p.onclick = (x) => {
             this.Emitter.emit('go-to-' + this.data.url)
         };
         return p
@@ -262,3 +262,32 @@ function httpGet(url) {
     });
 }
 
+class Emiter {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.events = {}
+    }
+
+    on(event, listeners) {
+        if (!this.events.hasOwnProperty(event)) {
+            this.events[event] = []
+        }
+        this.events[event].push(listeners)
+    }
+
+    emit(event) {
+        var i, listeners, length, args = [].slice.call(arguments, 1);
+
+        if (this.events.hasOwnProperty(event)) {
+            listeners = this.events[event].slice()
+            length = listeners.length
+
+            for (i = 0; i < length; i++) {
+                listeners[i].apply(this, args)
+            }
+        }
+    }
+}
