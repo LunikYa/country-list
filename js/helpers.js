@@ -1,17 +1,19 @@
 class Form {
     constructor(data) {
         this.data = data;
+        this.Emitter = new Emiter();
     }
-    render(arrOptions) {
-        let options         = arrOptions || this.data.inputsOptions || [],
-            form            = document.createElement('form'),
-            arrInp          = options.map(x => { return this.createInput(x) });
+    render(inputsOptions) {
+        let options = inputsOptions || this.data.inputsOptions,
+            form    = document.createElement('form'),
+            arrInp  = options.map(x => { return this.createInput(x) });
+    
             form.name       = this.data.nameForm || 'default';
             form.noValidate = true;
             form.method     = 'post';
 
         for (let i = 0; i < arrInp.length; i++) {
-            let div = new ErrorBox({ eventName: arrInp[i].type + i })
+            let div = new ErrorBox({ eventName: arrInp[i].type + i, Emitter: this.Emitter })
             arrInp[i].setAttribute('data-index', i)
             form.appendChild(arrInp[i]);
             form.appendChild(div.render(arrInp[i]));
@@ -21,53 +23,101 @@ class Form {
         return form
     }
 
-    pasteForm(form) {
-        if (this.data.conteiner) {
-            this.data.conteiner.appendChild(form)
-        } else {
-            console.log('we can\'t paste form');
+    createInput(options) {
+        let data = { options: options || {}},
+            input = new Input(data);
+        return (this.addValidate(input.render()));
+    }
+
+    addValidate(input) {
+        input.addEventListener('focus', (event) => {
+            event.target.style.border = '1px solid black';
+            this.Emitter.emit(('HideErrorBox', { 'detail': input.nextElementSibling }))
+        })
+        if (input.type === 'email') {
+            input.addEventListener('blur', this.isValidemail.bind(this));
+
+        } else if (input.type === 'password') {
+            input.addEventListener('blur', this.isValidpassword.bind(this));
+
+        } else if (input.type === 'text') {
+            input.addEventListener('blur', this.isValidtext.bind(this));
+        }
+        return input
+    }
+
+    isValidemail(event) {
+        let input = event.target || event;
+        let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        try {
+            if (!regExpEmail.test(input.value)) {
+                throw ({ name: 'isValidEmail', message: '*Email is not valid', elem: input })
+            }
+            input.style.border = '1px solid green';
+            this.Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
+            return true
+        } catch (error) {
+            this.showError(error, input)
+            return false
         }
     }
 
-    createInput(options) {
-        let data = {};
-            data.options = options || {};
-        let input = new Input(data);
-        return (input.render());
+    isValidpassword(event) {
+        let input = event.target || event;
+        try {
+            if (/\W/.test(input.value)) {
+                throw ({ name: 'isValidPassword', message: '*Password can`t include special character', elem: input })
+            }
+            else if (input.value.length < 6) {
+                throw ({ name: 'isValidPassword', message: '*Password must be 6 or more characters', elem: input })
+            }
+            input.style.border = '1px solid green';
+            this.Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
+            return true
+        } catch (error) {
+            this.showError(error, input)
+            return false
+        }
+    }
+
+    isValidtext(event) {
+        let input = event.target || event;
+        try {
+            if (/\W|\d/.test(input.value[0])) {
+                throw ({ name: 'isValidText', message: '*First char must be letter', elem: input })
+            }
+            else if (input.value.length < 3) {
+                throw ({ name: 'isValidText', message: '*This field must be 3 or more characters', elem: input })
+            }
+            input.style.border = '1px solid green';
+            this.Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
+            return true
+        } catch (error) {
+            this.showError(error, input)
+            return false
+        }
+    }
+
+    showError(error, input) {
+        this.Emitter.emit(input.type + input.getAttribute('data-index'), { 'detail': error })
+        input.style.border = '1px solid red'
     }
 }
 
 class Input {
-    constructor(data) {
+    constructor(data, Emitter) {
         this.data = data;
-    }
+        this.Emitter = Emitter;
+    }   
     render(obj) {
         let input   = document.createElement('input'),
-            options = obj || this.data.options || {};
+            options = obj || this.data.options;
         input.className = options.class;
 
         for (let key in options) {
             input[key] = options[key];
         }
-        this.addValidate(input);
         return input;
-    }
-
-    addValidate(input) {
-        input.addEventListener('focus', function (event) {
-            event.target.style.border = '1px solid black';
-            Emitter.emit(('HideErrorBox', { 'detail':  input.nextElementSibling }))
-        })
-        if (input.type === 'email') {
-            input.addEventListener('blur', isValidemail);
-
-        } else if (input.type === 'password') {
-            input.addEventListener('blur', isValidpassword);
-
-        } else if (input.type === 'text') {
-            input.addEventListener('blur', isValidtext);
-        }
-        return input
     }
 }
 
@@ -77,15 +127,15 @@ class ErrorBox {
     }
     render(eventName) {
         let box = document.createElement('div');
-        box.textContent = 'error';
-        box.className   = 'errormsg';
+            box.textContent = 'error';
+            box.className   = 'errormsg';
 
-        Emitter.on(this.data.eventName, (data) => {
+        this.data.Emitter.on(this.data.eventName, (data) => {
             box.style.display = 'block';
             box.textContent   = data.detail.message;
         })
 
-        Emitter.on('HideErrorBox', (data) => {
+        this.data.Emitter.on('HideErrorBox', (data) => {
             data.detail.style.display = 'none';
         })
         return box
@@ -94,16 +144,17 @@ class ErrorBox {
 
 class LinkRoute {
     constructor(data) {
-        this.data = data;
+        this.data    = data;
         this.Emitter = new Emiter()
         this.render()        
     }
     render() {
-        let p = document.createElement('p');
-        p.className = this.data.class;
+        let p         = document.createElement('p');
+        p.className   = this.data.class;
         p.textContent = this.data.text;
         p.onclick = (x)=>{
-            this.Emitter.emit('go-to-' + this.data.url, { 'detail': { }, bubbles: true })};
+            this.Emitter.emit('go-to-' + this.data.url)
+        };
         return p
     }
     on(event, callback) {
@@ -116,11 +167,11 @@ class ButtonSubmit {
         this.data = data;
     }
     render() {
-        let button = document.createElement('button');
-        button.className = this.data.class;
+        let button         = document.createElement('button');
+        button.className   = this.data.class;
         button.textContent = this.data.text;
-        button.onclick = this.data.event;
-        button.type = 'submit';
+        button.onclick     = this.data.event;
+        button.type        = 'submit';
         return button
     }
 }
@@ -168,7 +219,7 @@ class List {
         this.elem.prepend(h2);
         this.elem.appendChild(list);
     }
-    
+
     removeList() {
         this.elem.textContent = '';
     }
@@ -193,58 +244,6 @@ class List {
     }
 }
 
-function isValidemail(event) {
-    let input = event.target || event;
-    let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    try {
-        if (!regExpEmail.test(input.value)) {
-            throw ({ name: 'isValidEmail', message: '*Email is not valid', elem: input })
-        }
-        input.style.border = '1px solid green';        
-        Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
-        return true
-    } catch (error) {
-        showError(error, input)
-        return false
-    }
-}
-
-function isValidpassword(event) {
-    let input = event.target || event;
-    try {
-        if (/\W/.test(input.value)) {
-            throw ({ name: 'isValidPassword', message: '*Password can`t include special character', elem: input })
-        }
-        else if (input.value.length < 6) {
-            throw ({ name: 'isValidPassword', message: '*Password must be 6 or more characters', elem: input })
-        }
-        input.style.border = '1px solid green';
-        Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
-        return true
-    } catch (error) {
-        showError(error, input)
-        return false
-    }
-}
-
-function isValidtext(event) {
-    let input = event.target || event;
-    try {
-        if (/\W|\d/.test(input.value[0])) {
-            throw ({ name: 'isValidText', message: '*First char must be letter', elem: input })
-        }
-        else if (input.value.length < 3) {
-            throw ({ name: 'isValidText', message: '*This field must be 3 or more characters', elem: input })
-        }
-        input.style.border = '1px solid green';
-        Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
-        return true
-    } catch (error) {
-        showError(error, input)
-        return false
-    }
-}
-
 function httpGet(url) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -265,8 +264,3 @@ function httpGet(url) {
     });
 }
 
-function showError(error, input) {
-    Emitter.emit(input.type + input.getAttribute('data-index'), { 'detail': error})
-    input.style.border = '1px solid red'
-}
-let Emitter = new Emiter();

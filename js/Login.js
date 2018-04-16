@@ -6,11 +6,11 @@ class Login {
     }
 
     init(){
-        let form       = new Form(formLoginOptions),
-            linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Register', url: 'register' }),
+        this.form = new Form(formLoginOptions);
+        let linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Register', url: 'register' }),
             captionLog = new Caption({ class: '', text: 'Log In' }),
             box        = document.createElement('div'),
-            domForm    = form.render();
+            domForm    = this.form.render();
 
             linkToReg.on('go-to-register', (data) => {
                 this.Emitter.emit('go-to-register')
@@ -33,38 +33,33 @@ class Login {
         let result = true;
         for (let i = 0; i < form.length; i++) {
             if (form[i].type === 'email') {
-                if (!isValidemail(form[i])) {
+                if (!this.form.isValidemail(form[i])) {
                     result = false
                 }
             } else if (form[i].type === 'password') {
-                if (!isValidpassword(form[i])) {
+                if (!this.form.isValidpassword(form[i])) {
                     result = false
                 }
             } else if (form[i].type === 'text') {
-                if (!isValidtext(form[i])) {
+                if (!this.form.isValidtext(form[i])) {
                     result = false
                 }
             }
         }
-        this.validateUser(result, form);
-        event.preventDefault();
+        (result) ? this.validateUser(form) : event.preventDefault();
     }
 
-    validateUser(result, form) {
-        if (result) {
-            try {
-                if (user.email !== form.email.value) {
-                    throw ({ name: 'ValidUser', message: '*No such email was found', elem: form.email });
-                } else if (user.password !== form.password.value) {
-                    throw ({ name: 'ValidUser', message: '*Password is not valid', elem: form.password })
-                } else {
-                    this.Emitter.emit('login-user', { 'detail': { email: form.email.value }});
-                }
-            } catch (error) {
-                showError(error, error.elem)
-                event.preventDefault();
+    validateUser(form) {
+        try {
+            if (user.email !== form.email.value) {
+                throw ({ message: '*No such email was found', elem: form.email });
+            } else if (user.password !== form.password.value) {
+                throw ({ message: '*Password is not valid', elem: form.password })
+            } else {
+                this.Emitter.emit('login-user', { 'detail': form.email.value });
             }
-        } else {
+        } catch (error) {
+            this.form.showError(error, error.elem)
             event.preventDefault();
         }
     }

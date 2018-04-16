@@ -30,7 +30,7 @@ class MainCountry {
             let tempCountries = this.countryList.getFiltredList().slice(0, 3);
             for (let i = 0; i < tempCountries.length; i++){
                 if (tempCountries[i][0] !== 'No matches'){
-                    this.data[tempCountries[i]].forEach(x => { if(this.data.cities.length < 50) this.data.cities.push(x) })
+                    this.data[tempCountries[i]].forEach(x => { this.data.cities.push(x) })
                 }
             }
             this.cityList.render(this.data.cities);
@@ -45,10 +45,10 @@ class MainCountry {
     initCountryList(data){
         this.renderBoxStylesCountry();      
         this.elemCountry = document.getElementById('js-list-country');
-        this.countryList = new List(this.elemCountry, { title: 'Country', items: data || ['default']});
+        this.countryList = new List(this.elemCountry, { title: 'Country', items: data});
         
         this.countryList.addListener('click', (event) => {
-            this.Emitter.emit('country-change', { 'detail': event.target.textContent || ['default']});
+            this.Emitter.emit('country-change', { 'detail': event.target.textContent});
         })
         
         this.addFilterListCountry(data)
@@ -58,7 +58,7 @@ class MainCountry {
     initCityList(data){
         this.renderBoxStylesCity();
         this.elemCity = document.getElementById('js-list-city');
-        this.cityList = new List(this.elemCity, { title: 'City', items: data || ['default']});
+        this.cityList = new List(this.elemCity, { title: 'City', items: data});
 
         this.addFilterListCity(data)
         this.cityList.render(data)

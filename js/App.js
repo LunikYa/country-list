@@ -33,9 +33,9 @@ class App {
         else if (path === 'country') {
             if (!this.data) {
                 this.getDataCountries()
-                .then( resolve =>{
-                    this.country = new MainCountry(this.boxLists, this.data)
-                })      
+                    .then( resolve =>{
+                        this.country = new MainCountry(this.boxLists, this.data)
+                    })    
             } else {
                 this.country = new MainCountry(this.boxLists, this.data);
             }            
@@ -44,7 +44,7 @@ class App {
 
     clearBox(){
         this.boxLists.style.display = 'none';
-        this.boxForm.innerHTML = '';
+        this.boxForm.innerHTML      = '';
     }
 
     getDataCountries(){

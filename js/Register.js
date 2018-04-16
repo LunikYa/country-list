@@ -6,11 +6,11 @@ class Register {
     }
 
     init() {
-        let form       = new Form(formRegisterOptions),
-            linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Login', url: 'login' }),
-            captionLog = new Caption({ class: '', text: 'Register' }),
+        this.form      = new Form(formRegisterOptions);
+        let linkToReg  = new LinkRoute( { class: 'link', text: 'Go to Login', url: 'login' } ),
+            captionLog = new Caption( { class: '', text: 'Register' } ),
             box        = document.createElement('div'),
-            domForm    = form.render();
+            domForm    = this.form.render();
 
             linkToReg.on('go-to-login', (data) => {
                 this.Emitter.emit('go-to-login')
@@ -29,43 +29,36 @@ class Register {
         let result = true;
         for (let i = 0; i < form.length; i++) {
             if (form[i].type === 'email') {
-                if (!isValidemail(form[i])) {
+                if (!this.form.isValidemail(form[i])) {
                     result = false
                 }
             } else if (form[i].type === 'password') {
-                if (!isValidpassword(form[i])) {
+                if (!this.form.isValidpassword(form[i])) {
                     result = false
                 }
             } else if (form[i].type === 'text') {
-                if (!isValidtext(form[i])) {
+                if (!this.form.isValidtext(form[i])) {
                     result = false
                 }
             }
         }
-        this.validateUser(result, form);
-        event.preventDefault();
+        (result) ? this.validateUser(form) : event.preventDefault();
     }
 
     on(event, callback) {
         this.Emitter.on(event, callback)
     }
 
-    validateUser(result, form) {
-        if (result) {
-            try {
-                if (user.hasOwnProperty(form.email.value)) {
-                    throw ({ name: 'ValidUser', message: '*This email already exists', elem: form.email });
-                } else {
-                    this.createUser(form);
-                }
-            } catch (error) {
-                this.showError(error, error.elem)
-                event.preventDefault();
-                return false
+    validateUser(form) {
+        try {
+            if (user.email === form.email.value) {
+                throw ({ message: '*This email already exists', elem: form.email });
+            } else {
+                this.createUser(form);
             }
-        } else {
-            event.preventDefault();
-            return false
+        } catch (error) {
+            this.form.showError(error, error.elem)
+            event.preventDefault()
         }
     }
 
@@ -76,7 +69,7 @@ class Register {
             surname:  form['surname'].value,
             password: form['password'].value
         };
-        this.Emitter.emit('register-user-create', { 'detail': user});    
+        this.Emitter.emit('register-user-create', { 'detail': user });    
     }
 }
 
