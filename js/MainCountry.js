@@ -15,8 +15,8 @@ class MainCountry {
         for (let i = 0; this.cities.length < 50; i++) {
             this.data[this.countries[i]].forEach((x) => { this.cities.push(x) })
         }
-        this.initCountryList(this.countries);
-        this.initCityList(this.cities);
+        this.initCountry(this.countries);
+        this.initCity(this.cities);
         this.addListeners();
     }
     
@@ -24,8 +24,8 @@ class MainCountry {
         this.Emitter.on(event, callback)
     }
 
-    initCountryList(data){
-        this.renderBoxStylesCountry();      
+    initCountry(data){
+        this.renderBoxCountry();
         this.countryList = new List(this.elemCountry, { title: 'Country', items: data});        
         
         this.elemCountry.addEventListener('click', (event) => {
@@ -35,8 +35,8 @@ class MainCountry {
         this.countryList.render(data);
     }
    
-    initCityList(data){
-        this.renderBoxStylesCity()
+    initCity(data){
+        this.renderBoxCity()
         this.cityList = new List(this.elemCity, { title: 'City', items: data});
         this.cityList.render(data)
     }
@@ -48,32 +48,30 @@ class MainCountry {
         }))
         return filtredArr;
     }
+
+    filterCounty(val) {
+        for (let key in this.data) {
+            this.countries.push(key);
+        }
+        this.renderCities
+    }
   
     addListeners() {
-        this.filterCountry.on('filter-country', (event) => {
-            this.countryList.render(this.filterItems(event.detail, this.countries))
-            
-            this.cities = [];
-            let tempCountries = this.filterItems(event.detail, this.countries).slice(0, 3);
-            for (let i = 0; i < tempCountries.length; i++) {
-                if (tempCountries[i][0] !== 'No matches') {
-                    this.data[tempCountries[i]].forEach(x => { this.cities.push(x) })
-                }
-            }
-            this.cityList.render(this.cities);
+        this.filterCountry.on('filter', (val) => {
+            this.filterCounty(val)
         })
         
-        this.filterCities.on('filter-cities', (event) => {
+        this.filterCities.on('filter', (event) => {
             this.cityList.render(this.filterItems(event.detail, this.cities))
         })
     }
 
-    renderBoxStylesCountry() {
-        this.elem.style.display = 'block';       
+    renderBoxCountry() {
+        this.elem.style.display = 'block';
         let box = document.createElement('div');
             box.classList.add('conteiner-list', 'left');
 
-        this.filterCountry = new Filter({ type: 'text', placeholder: 'Source country', class: 'new-task', events: ['filter-country'] }, box);
+        this.filterCountry = new Filter();
         
         let boxListCountry           = document.createElement('div');
             boxListCountry.className = 'list-country';
@@ -83,11 +81,11 @@ class MainCountry {
         this.elem.appendChild(box);   
     }
 
-    renderBoxStylesCity(){
+    renderBoxCity(){
         let box = document.createElement('div');
             box.classList.add('conteiner-list', 'right');
 
-        this.filterCities = new Filter({ type: 'text', placeholder: 'Source country', class: 'new-task', events: ['filter-cities'] }, box);
+        this.filterCities = new Filter(box);
 
         let boxListCity           = document.createElement('div');
             boxListCity.className = 'list-country';

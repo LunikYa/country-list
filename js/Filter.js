@@ -1,6 +1,5 @@
 class Filter {
-   constructor(data, elem){
-       this.data = data;
+   constructor(elem){
        this.elem = elem;
        this.Emitter = new Emiter();
        this.init()
@@ -8,25 +7,19 @@ class Filter {
 
     init(){
         let input = document.createElement('input');
-            input.type = this.data.type;
-            input.placeholder = this.data.placeholder;
-            input.className = this.data.class;
+            input.type = 'text';
+            input.placeholder = 'filter list';
+            input.className = 'new-task';
 
-        this.data.events.forEach(x => {
-            this.addEmit(input, x, { detail: event.target.value })
+        input.addEventListener('input', (event) => {
+            this.Emitter.emit('filter', event.target.value)
         });
-        
+
         this.elem.appendChild(input);
         return input 
     }
 
     on(event, callback) {
         this.Emitter.on(event, callback)
-    }
-
-    addEmit(input, ev){
-        input.addEventListener('input', (event) => {
-            this.Emitter.emit(ev, { detail: event.target.value })
-        });
     }
 }
