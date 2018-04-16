@@ -5,7 +5,7 @@ class Register {
         this.Emitter = new Emiter();
     }
 
-    init() {        
+    init() {
         let form       = new Form(formRegisterOptions),
             linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Login', url: 'login' }),
             captionLog = new Caption({ class: '', text: 'Register' }),
@@ -83,11 +83,9 @@ class Register {
 let formRegisterOptions =
     {
         inputsOptions: [
-            { name: 'name', type: 'text', require: true, placeholder: 'You name', class: 'default-input' },
-            { name: 'surname', type: 'text', require: true, placeholder: 'You surname', class: 'default-input' },
-            { name: 'email', type: 'email', require: true, placeholder: 'You email', class: 'default-input' },
+            { name: 'name',     type: 'text',     require: true, placeholder: 'You name',     class: 'default-input' },
+            { name: 'surname',  type: 'text',     require: true, placeholder: 'You surname',  class: 'default-input' },
+            { name: 'email',    type: 'email',    require: true, placeholder: 'You email',    class: 'default-input' },
             { name: 'password', type: 'password', require: true, placeholder: 'You password', class: 'default-input' }],
         nameForm: 'register'
     };
-
-

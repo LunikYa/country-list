@@ -64,7 +64,7 @@ class Login {
                 showError(error, error.elem)
                 event.preventDefault();
             }
-        } else {            
+        } else {
             event.preventDefault();
         }
     }

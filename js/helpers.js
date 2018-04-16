@@ -168,9 +168,11 @@ class List {
         this.elem.prepend(h2);
         this.elem.appendChild(list);
     }
+    
     removeList() {
         this.elem.textContent = '';
     }
+    
     addItem(item) {
         this.data.items.push(item);
     }

@@ -6,7 +6,7 @@ class MainCountry {
         this.init();
     }
 
-    init(){   
+    init(){
         this.data.countries = [];
         for (let key in this.data) {
             this.data.countries.push(key);
@@ -25,16 +25,16 @@ class MainCountry {
             this.cityList.render(this.data.cities);
         })
 
-        this.on('country-filtred', (data) => {            
+        this.on('country-filtred', (data) => {
             this.data.cities = [];
             let tempCountries = this.countryList.getFiltredList().slice(0, 3);
-
             for (let i = 0; i < tempCountries.length; i++){
-                if (tempCountries[i][0] !== 'No matches')
-                    this.data[tempCountries[i]].forEach(x => { this.data.cities.push(x)})
-                }                      
+                if (tempCountries[i][0] !== 'No matches'){
+                    this.data[tempCountries[i]].forEach(x => { if(this.data.cities.length < 50) this.data.cities.push(x) })
+                }
+            }
             this.cityList.render(this.data.cities);
-            this.addFilterListCity(this.data.cities)           
+            this.addFilterListCity(this.data.cities)
         })
     }
     
@@ -45,11 +45,11 @@ class MainCountry {
     initCountryList(data){
         this.renderBoxStylesCountry();      
         this.elemCountry = document.getElementById('js-list-country');
-        this.countryList = new List(this.elemCountry, { title: 'Country', items: data || ['default']});        
+        this.countryList = new List(this.elemCountry, { title: 'Country', items: data || ['default']});
         
         this.countryList.addListener('click', (event) => {
             this.Emitter.emit('country-change', { 'detail': event.target.textContent || ['default']});
-        })    
+        })
         
         this.addFilterListCountry(data)
         this.countryList.render(data);
@@ -60,7 +60,7 @@ class MainCountry {
         this.elemCity = document.getElementById('js-list-city');
         this.cityList = new List(this.elemCity, { title: 'City', items: data || ['default']});
 
-        this.addFilterListCity(data)     
+        this.addFilterListCity(data)
         this.cityList.render(data)
     }
 
@@ -84,14 +84,14 @@ class MainCountry {
         let box = document.createElement('div');
             box.classList.add('conteiner-list', 'left');
 
-        let inputCountry = document.createElement('input');
-            inputCountry.type = 'text';
-            inputCountry.id = 'js-input-filter';
+        let inputCountry             = document.createElement('input');
+            inputCountry.type        = 'text';
+            inputCountry.id          = 'js-input-filter';
             inputCountry.placeholder = 'Source country';
-            inputCountry.className = 'new-task';
+            inputCountry.className   = 'new-task';
 
-        let boxListCountry = document.createElement('div');
-            boxListCountry.id = 'js-list-country';
+        let boxListCountry           = document.createElement('div');
+            boxListCountry.id        = 'js-list-country';
             boxListCountry.className = 'list-country';
 
         box.appendChild(inputCountry);
@@ -103,14 +103,14 @@ class MainCountry {
         let box = document.createElement('div');
             box.classList.add('conteiner-list', 'right');
 
-        let inputCity = document.createElement('input');
-            inputCity.type = 'text';
-            inputCity.id = 'js-input-filter-city';
-            inputCity.className = 'new-task';
+        let inputCity             = document.createElement('input');
+            inputCity.type        = 'text';
+            inputCity.id          = 'js-input-filter-city';
+            inputCity.className   = 'new-task';
             inputCity.placeholder = "Source city";
 
-        let boxListCity = document.createElement('div');
-            boxListCity.id = 'js-list-city';
+        let boxListCity           = document.createElement('div');
+            boxListCity.id        = 'js-list-city';
             boxListCity.className = 'list-country';
 
         box.appendChild(inputCity);  

@@ -1,6 +1,5 @@
 class App {
     constructor() {
-        this.Emitter = new Emiter();
         this.init();
     }
     init(){
@@ -46,7 +45,6 @@ class App {
     clearBox(){
         this.boxLists.style.display = 'none';
         this.boxForm.innerHTML = '';
-        this.boxLists.innerHTML = '';
     }
 
     getDataCountries(){
@@ -61,10 +59,7 @@ class App {
                         console.log(reject)
                     }
                 );
-        
         })
     }
 }
 myApp = new App();
-
-
