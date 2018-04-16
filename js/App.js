@@ -5,7 +5,7 @@ class App {
     init(){
         this.boxForm  = document.getElementById('conteiner-form');
         this.boxLists = document.getElementById('main-conteiner-lists');       
-        this.render('login');
+        this.render('country');
     }
     render(path){
         this.clearBox()
@@ -53,7 +53,7 @@ class App {
                 .then(
                     response => {
                         this.data = response;
-                        resolve(response);
+                        resolve();
                     },
                     reject => {
                         console.log(reject)

@@ -150,7 +150,7 @@ class LinkRoute {
         let p         = document.createElement('p');
         p.className   = this.data.class;
         p.textContent = this.data.text;
-        p.onclick = (x) => {
+        p.onclick = () => {
             this.Emitter.emit('go-to-' + this.data.url)
         };
         return p
@@ -191,7 +191,6 @@ class List {
     constructor(elem, data) {
         this.elem = elem;
         this.data = data;
-        this.filtredArr = [];
     }
     render(arr) {
         this.removeList();
@@ -225,21 +224,6 @@ class List {
     addItem(item) {
         this.data.items.push(item);
     }
-
-    filterItems(option, current) {
-        this.filtredArr = [];
-        this.filtredArr = (current.filter((a) => {
-            if(typeof a === 'string')
-                return !(a.toLowerCase().indexOf(option.value.toLowerCase()) !== 0);
-        }))
-        this.render(this.filtredArr)
-    }
-    getFiltredList(){
-        return this.filtredArr
-    }
-    addListener(listener, callback){
-        this.elem.addEventListener(listener, callback)
-    }
 }
 
 function httpGet(url) {
@@ -266,18 +250,15 @@ class Emiter {
     constructor() {
         this.init();
     }
-
     init() {
         this.events = {}
     }
-
     on(event, listeners) {
         if (!this.events.hasOwnProperty(event)) {
             this.events[event] = []
         }
         this.events[event].push(listeners)
     }
-
     emit(event) {
         var i, listeners, length, args = [].slice.call(arguments, 1);
 
