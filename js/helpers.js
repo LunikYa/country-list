@@ -24,8 +24,7 @@ class Form {
     }
 
     createInput(options) {
-        let data = { options: options || {}},
-            input = new Input(data);
+        let input = new Input(options);
         return (this.addValidate(input.render()));
     }
 
@@ -51,7 +50,7 @@ class Form {
         let regExpEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         try {
             if (!regExpEmail.test(input.value)) {
-                throw ({ name: 'isValidEmail', message: '*Email is not valid', elem: input })
+                throw ({ message: '*Email is not valid', elem: input })
             }
             input.style.border = '1px solid green';
             this.Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
@@ -66,10 +65,10 @@ class Form {
         let input = event.target || event;
         try {
             if (/\W/.test(input.value)) {
-                throw ({ name: 'isValidPassword', message: '*Password can`t include special character', elem: input })
+                throw ({ message: '*Password can`t include special character', elem: input })
             }
             else if (input.value.length < 6) {
-                throw ({ name: 'isValidPassword', message: '*Password must be 6 or more characters', elem: input })
+                throw ({ message: '*Password must be 6 or more characters', elem: input })
             }
             input.style.border = '1px solid green';
             this.Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
@@ -84,10 +83,10 @@ class Form {
         let input = event.target || event;
         try {
             if (/\W|\d/.test(input.value[0])) {
-                throw ({ name: 'isValidText', message: '*First char must be letter', elem: input })
+                throw ({ message: '*First char must be letter', elem: input })
             }
             else if (input.value.length < 3) {
-                throw ({ name: 'isValidText', message: '*This field must be 3 or more characters', elem: input })
+                throw ({ message: '*This field must be 3 or more characters', elem: input })
             }
             input.style.border = '1px solid green';
             this.Emitter.emit('HideErrorBox', { 'detail': input.nextElementSibling })
@@ -105,14 +104,13 @@ class Form {
 }
 
 class Input {
-    constructor(data, Emitter) {
+    constructor(data) {
         this.data = data;
-        this.Emitter = Emitter;
     }   
     render(obj) {
         let input   = document.createElement('input'),
-            options = obj || this.data.options;
-        input.className = options.class;
+            options = obj || this.data;
+            input.className = options.class;
 
         for (let key in options) {
             input[key] = options[key];
@@ -125,7 +123,7 @@ class ErrorBox {
     constructor(data) {
         this.data = data;
     }
-    render(eventName) {
+    render() {
         let box = document.createElement('div');
             box.textContent = 'error';
             box.className   = 'errormsg';
@@ -167,11 +165,11 @@ class ButtonSubmit {
         this.data = data;
     }
     render() {
-        let button         = document.createElement('button');
-        button.className   = this.data.class;
-        button.textContent = this.data.text;
-        button.onclick     = this.data.event;
-        button.type        = 'submit';
+        let button             = document.createElement('button');
+            button.className   = this.data.class;
+            button.textContent = this.data.text;
+            button.onclick     = this.data.event;
+            button.type        = 'submit';
         return button
     }
 }
@@ -183,8 +181,8 @@ class Caption {
     }
     render() {
         let h2 = document.createElement('h2');
-        h2.className   = this.data.class || '';
-        h2.textContent = this.data.text || '';
+            h2.className   = this.data.class || '';
+            h2.textContent = this.data.text || '';
         return h2
     }
 }
@@ -246,13 +244,13 @@ class List {
 
 function httpGet(url) {
     return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onload = function () {
             if (this.status == 200) {
                 resolve(JSON.parse(this.response));
             } else {
-                var error = new Error(this.statusText);
+                let error = new Error(this.statusText);
                 error.code = this.status;
                 reject(error);
             }

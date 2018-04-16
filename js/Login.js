@@ -6,7 +6,7 @@ class Login {
     }
 
     init(){
-        this.form = new Form(formLoginOptions);
+        this.form      = new Form(formLoginOptions);
         let linkToReg  = new LinkRoute({ class: 'link', text: 'Go to Register', url: 'register' }),
             captionLog = new Caption({ class: '', text: 'Log In' }),
             box        = document.createElement('div'),
@@ -16,7 +16,7 @@ class Login {
                 this.Emitter.emit('go-to-register')
             })
 
-            domForm.addEventListener('submit', e => {this.validateForm.call(this, domForm, e)}, false)
+            domForm.addEventListener('submit', e => {this.validateForm.call(this, domForm, e)})
 
             box.appendChild(domForm);
             box.prepend(captionLog.render());
