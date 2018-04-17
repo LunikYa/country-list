@@ -22,9 +22,7 @@ class Country {
 
     render(items) {
         this.removeList();
-        if (items.length === 0) {
-            items.push('No matches')
-        }
+        
         items.forEach((item) => {
             let a = document.createElement('a'),
                 li = document.createElement('li');

@@ -77,6 +77,9 @@ class MainCountry {
         let filtredArr = (items.filter((a) => {
             return !(a.toLowerCase().indexOf(value.toLowerCase()) !== 0);
         }))
+        if (filtredArr.length === 0){
+            filtredArr.push('No matches')
+        }
         return filtredArr;
     }
 
