@@ -5,7 +5,7 @@ class App {
     init(){
         this.boxForm  = document.getElementById('conteiner-form');
         this.boxLists = document.getElementById('main-conteiner-lists');       
-        this.render('country');
+        this.render('login');
     }
     render(path){
         this.clearBox()
