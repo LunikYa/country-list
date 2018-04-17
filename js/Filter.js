@@ -9,14 +9,12 @@ class Filter {
         let input = document.createElement('input');
             input.type = 'text';
             input.placeholder = 'filter list';
-            input.className = 'new-task';
-
+            input.className = 'filter-input';
+            
         input.addEventListener('input', (event) => {
             this.Emitter.emit('filter', event.target.value)
         });
-
         this.elem.appendChild(input);
-        return input 
     }
 
     on(event, callback) {
