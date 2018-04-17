@@ -17,23 +17,23 @@ class MainCountry {
         }
         this.renderBoxCountry();
         this.renderBoxCity();
-        this.initCountry(this.elemCountry, this.countries);
-        this.initCity(this.elemCity, this.cities);
+        this.initCountry();
+        this.initCity();
     }
     
-    initCountry(elem, data) {
-        this.country = new Country(elem, data);
+    initCountry() {
+        this.country = new Country(this.elemCountry, this.countries);
 
         this.country.on('country-change', (country) => {
             if (!!this.data[country]){
                 this.cities = this.data[country];
-                this.city.render(this.cities);
-            }
+                this.city.emit('render', this.cities);
+            }   
         })
     }
 
-    initCity(elem, data) {
-        this.city = new City(elem, data);
+    initCity() {
+        this.city = new City(this.elemCity, this.cities);
     }
 
     initFilterCountry(elem){
@@ -55,22 +55,25 @@ class MainCountry {
     
     filterCountry(value) {
         let filtred = this.filterItems(value, this.countries);
-        this.country.render(filtred)
+        this.country.emit('render', filtred);
         return filtred
     }
    
     filterCity(value) {
-        this.city.render(this.filterItems(value, this.cities))
+        let filtred = this.filterItems(value, this.cities);
+        this.city.emit('render', filtred);
     }
 
     changeCities(arr){
         this.cities = [];
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i] !== 'No matches') {
+        if (arr[0] === 'No matches') {
+            this.cities.push('No matches')
+        } else{ 
+            for (let i = 0; i < arr.length; i++) {
                 this.data[arr[i]].forEach(x => { this.cities.push(x) })
             }
         }
-        this.city.render(this.cities)
+        this.city.emit('render', this.cities)
     }
 
     filterItems(value, items) {
@@ -82,17 +85,18 @@ class MainCountry {
         }
         return filtredArr;
     }
-
+    
     on(event, callback) {
         this.Emitter.on(event, callback)
     }
 
     renderBoxCountry() {
         this.elem.style.display = 'block';
-        let box = document.createElement('div');
-            box.classList.add('conteiner-list', 'left');
-        let boxListCountry = document.createElement('div');
-            boxListCountry.className = 'list-country';
+        let box = document.createElement('div'),
+            boxListCountry = document.createElement('div');
+
+        box.classList.add('conteiner-list', 'left');        
+        boxListCountry.className = 'list-country';
         
         this.initFilterCountry(box);
 
@@ -102,10 +106,11 @@ class MainCountry {
     }
 
     renderBoxCity() {
-        let box = document.createElement('div');
-            box.classList.add('conteiner-list', 'right');
-        let boxListCity = document.createElement('div');
-            boxListCity.className = 'list-country';
+        let box = document.createElement('div'),
+            boxListCity = document.createElement('div');
+
+        box.classList.add('conteiner-list', 'right');        
+        boxListCity.className = 'list-country';
 
         this.initFilterCity(box);
 

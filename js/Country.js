@@ -7,9 +7,8 @@ class Country {
     }
 
     init() {
-        this.elem.addEventListener('click', (event) => {
-            this.Emitter.emit('country-change', event.target.textContent)
-        })
+        this.on('render', (e) => { this.render.call(this, e) })
+
         let h2 = document.createElement('h2');
             h2.textContent = 'Country';
 
@@ -17,6 +16,11 @@ class Country {
         this.list.classList.add('list-general');
         this.elem.prepend(h2);
         this.elem.appendChild(this.list);
+
+        this.list.addEventListener('click', (event) => {
+            this.Emitter.emit('country-change', event.target.textContent)
+        })
+
         this.render(this.data);
     }
 
@@ -24,9 +28,8 @@ class Country {
         this.removeList();
         
         items.forEach((item) => {
-            let a = document.createElement('a'),
+            let a  = document.createElement('a'),
                 li = document.createElement('li');
-
             li.textContent = item;
             a.appendChild(li);
             this.list.appendChild(a);
@@ -39,5 +42,9 @@ class Country {
 
     on(event, callback) {
         this.Emitter.on(event, callback)
+    }
+
+    emit(event, data){
+        this.Emitter.emit(event, data)
     }
 }

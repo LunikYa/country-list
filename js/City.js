@@ -7,6 +7,8 @@ class City {
     }
 
     init() {
+        this.on('render', (e) => {this.render.call(this, e)})
+
         let h2   = document.createElement('h2');
             h2.textContent = 'City';
 
@@ -36,5 +38,9 @@ class City {
     
     on(event, callback) {
         this.Emitter.on(event, callback)
+    }
+
+    emit(event, data) {
+        this.Emitter.emit(event, data)
     }
 }
