@@ -7,15 +7,18 @@ class City {
     }
 
     init() {
+        let h2   = document.createElement('h2');
+            h2.textContent = 'City';
+
+        this.list = document.createElement('ul');            
+        this.list.classList.add('list-general');
+        this.elem.prepend(h2);
+        this.elem.appendChild(this.list);
         this.render(this.data);
     }
 
     render(items) {
         this.removeList();
-        let h2 = document.createElement('h2'),
-            list = document.createElement('ul');
-            h2.textContent = 'City';
-            list.classList.add('list-general');
         if (items.length === 0){
             items.push('No matches')
         }
@@ -25,15 +28,12 @@ class City {
     
             li.textContent = item;
             a.appendChild(li);
-            list.appendChild(a);
+            this.list.appendChild(a);
         })
-  
-        this.elem.prepend(h2);
-        this.elem.appendChild(list);
     }
 
     removeList() {
-        this.elem.textContent = '';
+        this.list.textContent = '';
     }
     
     on(event, callback) {
